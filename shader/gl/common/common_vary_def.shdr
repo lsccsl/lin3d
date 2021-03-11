@@ -1,0 +1,5 @@
+varying vec4 vary_view_pos;  //观察位置
+varying vec4 vary_world_pos; //世界位置
+varying vec3 vary_world_nml; //世界法线
+varying vec3 vary_view_nml; //观察法线
+varying vec4 vary_proj_pos;

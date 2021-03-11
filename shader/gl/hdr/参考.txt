@@ -1,0 +1,50 @@
+gl-graphics-compute-samples-win-2.11\samples\es3aep-kepler\HDR
+
+scene_buffer 窗口大小
+
+glare_buffer 512x512
+
+compose_buffer[6]  从256x256至8x8
+blur_bufferA[6]
+blur_bufferB[6]
+
+streak_bufferA[4] 256x256
+streak_bufferB[4]
+streak_bufferFinal
+
+ghost1st_buffer 512x512
+ghost2nd_buffer
+
+exp_buffer[2] 从64x64至16x16
+
+
+
+====================================
+
+scene_buffer 降采样downsample4x blur_bufferA[0] 
+
+blur_bufferA[0]降采样downsample4x exp_buffer[0]
+
+exp_buffer[0]降采样downsample4x exp_buffer[1]
+
+根据exp_buffer[1]计算灰度值
+
+extractHL: 从blur_bufferA[0] 拷贝高亮(每个分量扣减threshold,默认为1.0)至 compose_buffer[0]
+
+blur 横向纵向高斯过滤
+compose_buffer[i] --> blur_bufferA[i](blur_bufferB[i]为中间临时纹理,先h后v)
+做6次,每做一次compose_buffer降一次采样downsample,然后高斯过滤至blur_bufferA
+
+
+高亮光(纵向/十字)拉长 每个方向做一次 dir索引,表示每个方向
+compose_buffer[0] --> streak_bufferA[dir] ---> streak_bufferB[dir]  做4次,起到拉长的效果
+
+ComposeEffect
+blur_bufferA[0-3]  0.3, 0.3, 0.25, 0.20  4个解析度的高亮分量,按权值相加 -->compose_buffer[0]
+streak_bufferA 各个方向组合进 -->streak_bufferFinal
+按权值 compose_buffer[0] + streak_bufferFinal + ghost2nd_buffer ---> glare_buffer
+  权值如下:float cameraMixCoeff[4]={1.2, 0.8, 0.1, 0.0};
+           float filmicMixCoeff[4]={0.6, 0.55, 0.08, 0.0};
+
+toneMappingPass
+scene_buffer + glare_buffer ---> 屏幕

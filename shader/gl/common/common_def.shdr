@@ -1,0 +1,5 @@
+/*** common_def.shdr ***/
+
+#define E_LIGHT_DIR 0
+#define E_LIGHT_SPOT 1
+#define E_LIGHT_POINT 2

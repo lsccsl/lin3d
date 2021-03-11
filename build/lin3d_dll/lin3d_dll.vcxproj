@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A355AB04-E8F6-45F7-9C8A-6822B49D9FA5}</ProjectGuid>
+    <RootNamespace>lin3d_dll</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>16.0.30804.86</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\output\</OutDir>
+    <IntDir>..\..\output\lin3d\release_x64\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIN3D_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIN3D_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\src\include;..\..\src\lin3d\common\;..\..\src\lin3d\;..\..\depend\FreeImage;..\..\depend\glew64\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIN3D_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\depend\FreeImage\vs2008_x64;..\..\depend\glew64\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\src\include;..\..\src\lin3d\common\;..\..\src\lin3d\;..\..\depend\FreeImage;..\..\depend\glew64\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIN3D_DLL_EXPORTS;GLEW_STATIC;FREEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glu32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)liblin_dll.dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\depend\glew64\lib\Release\x64;..\..\depend\FreeImage3180Win32Win64\FreeImage\Dist\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\lin3d\aabb.cpp" />
+    <ClCompile Include="..\..\src\lin3d\base_obj.cpp" />
+    <ClCompile Include="..\..\src\lin3d\base_obj_mgr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\camera.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_color.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_engine.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_file.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_image.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_log.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_math.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_null_lock.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_ref_ptr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_type.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_vector3.cpp" />
+    <ClCompile Include="..\..\src\lin3d\common\l3_vector4.cpp" />
+    <ClCompile Include="..\..\src\lin3d\config.cpp" />
+    <ClCompile Include="..\..\src\lin3d\device_buf.cpp" />
+    <ClCompile Include="..\..\src\lin3d\image.cpp" />
+    <ClCompile Include="..\..\src\lin3d\index_buf.cpp" />
+    <ClCompile Include="..\..\src\lin3d\light.cpp" />
+    <ClCompile Include="..\..\src\lin3d\light_cam.cpp" />
+    <ClCompile Include="..\..\src\lin3d\light_mgr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\material.cpp" />
+    <ClCompile Include="..\..\src\lin3d\matrix3.cpp" />
+    <ClCompile Include="..\..\src\lin3d\matrix4.cpp" />
+    <ClCompile Include="..\..\src\lin3d\mesh.cpp" />
+    <ClCompile Include="..\..\src\lin3d\mesh_loader_x.cpp" />
+    <ClCompile Include="..\..\src\lin3d\moveable.cpp" />
+    <ClCompile Include="..\..\src\lin3d\plane.cpp" />
+    <ClCompile Include="..\..\src\lin3d\quaternion.cpp" />
+    <ClCompile Include="..\..\src\lin3d\ray.cpp" />
+    <ClCompile Include="..\..\src\lin3d\render_obj.cpp" />
+    <ClCompile Include="..\..\src\lin3d\render_target_base.cpp" />
+    <ClCompile Include="..\..\src\lin3d\render_target_fbo.cpp" />
+    <ClCompile Include="..\..\src\lin3d\render_target_mgr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_cone.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_geometry.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_plane.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_skeleton.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_skydome.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_sphere.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_vector.cpp" />
+    <ClCompile Include="..\..\src\lin3d\robj_water.cpp" />
+    <ClCompile Include="..\..\src\lin3d\sence_mgr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\sence_render_defer.cpp" />
+    <ClCompile Include="..\..\src\lin3d\sence_render_forward.cpp" />
+    <ClCompile Include="..\..\src\lin3d\sence_render_test.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_atmospheric_ground.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_cascaded_shadowmap_cast.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_cascaded_shadowmap_recv.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_atmospheric.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_final.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_gbuffer.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_light.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_light_mix.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_light_vol_mix.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_dissolution.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_hdr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_pbr_fwd.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_program.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_program_inter.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_program_mgr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_reflect_forward.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_screen_quad.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_shadowmap_cast.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_shadowmap_recv.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_show_tex.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_ssao.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_ssr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_test.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_vol.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_vol_lightdir_extrude.cpp" />
+    <ClCompile Include="..\..\src\lin3d\shader_vol_radial_blur.cpp" />
+    <ClCompile Include="..\..\src\lin3d\sphere.cpp" />
+    <ClCompile Include="..\..\src\lin3d\texture_base.cpp" />
+    <ClCompile Include="..\..\src\lin3d\texture_mgr.cpp" />
+    <ClCompile Include="..\..\src\lin3d\texture_win32gl.cpp" />
+    <ClCompile Include="..\..\src\lin3d\triangle.cpp" />
+    <ClCompile Include="..\..\src\lin3d\vertex_buf.cpp" />
+    <ClCompile Include="..\..\src\lin3d\win32gl_glee.cpp" />
+    <ClCompile Include="..\..\src\lin3d\win_device.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\include\l3_color.h" />
+    <ClInclude Include="..\..\src\include\l3_compile_config.h" />
+    <ClInclude Include="..\..\src\include\l3_dllexp.h" />
+    <ClInclude Include="..\..\src\include\l3_engine.h" />
+    <ClInclude Include="..\..\src\include\l3_enum_define.h" />
+    <ClInclude Include="..\..\src\include\l3_file.h" />
+    <ClInclude Include="..\..\src\include\l3_image.h" />
+    <ClInclude Include="..\..\src\include\l3_log.h" />
+    <ClInclude Include="..\..\src\include\l3_math.h" />
+    <ClInclude Include="..\..\src\include\l3_null_lock.h" />
+    <ClInclude Include="..\..\src\include\l3_ref_ptr.h" />
+    <ClInclude Include="..\..\src\include\l3_type.h" />
+    <ClInclude Include="..\..\src\include\l3_vector3.h" />
+    <ClInclude Include="..\..\src\include\l3_vector4.h" />
+    <ClInclude Include="..\..\src\lin3d\aabb.h" />
+    <ClInclude Include="..\..\src\lin3d\base_obj.h" />
+    <ClInclude Include="..\..\src\lin3d\base_obj_mgr.h" />
+    <ClInclude Include="..\..\src\lin3d\blend.h" />
+    <ClInclude Include="..\..\src\lin3d\camera.h" />
+    <ClInclude Include="..\..\src\lin3d\config.h" />
+    <ClInclude Include="..\..\src\lin3d\device_buf.h" />
+    <ClInclude Include="..\..\src\lin3d\image.h" />
+    <ClInclude Include="..\..\src\lin3d\index_buf.h" />
+    <ClInclude Include="..\..\src\lin3d\light.h" />
+    <ClInclude Include="..\..\src\lin3d\light_cam.h" />
+    <ClInclude Include="..\..\src\lin3d\light_mgr.h" />
+    <ClInclude Include="..\..\src\lin3d\material.h" />
+    <ClInclude Include="..\..\src\lin3d\matrix3.h" />
+    <ClInclude Include="..\..\src\lin3d\matrix4.h" />
+    <ClInclude Include="..\..\src\lin3d\mesh.h" />
+    <ClInclude Include="..\..\src\lin3d\mesh_loader_x.h" />
+    <ClInclude Include="..\..\src\lin3d\moveable.h" />
+    <ClInclude Include="..\..\src\lin3d\plane.h" />
+    <ClInclude Include="..\..\src\lin3d\quaternion.h" />
+    <ClInclude Include="..\..\src\lin3d\ray.h" />
+    <ClInclude Include="..\..\src\lin3d\render_obj.h" />
+    <ClInclude Include="..\..\src\lin3d\render_target_base.h" />
+    <ClInclude Include="..\..\src\lin3d\render_target_fbo.h" />
+    <ClInclude Include="..\..\src\lin3d\render_target_mgr.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_base.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_cone.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_geometry.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_plane.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_skeleton.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_skydome.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_sphere.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_vector.h" />
+    <ClInclude Include="..\..\src\lin3d\robj_water.h" />
+    <ClInclude Include="..\..\src\lin3d\sence_mgr.h" />
+    <ClInclude Include="..\..\src\lin3d\sence_render_defer.h" />
+    <ClInclude Include="..\..\src\lin3d\sence_render_forward.h" />
+    <ClInclude Include="..\..\src\lin3d\sence_render_test.h" />
+    <ClInclude Include="..\..\src\lin3d\shader.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_atmospheric_ground.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_cascaded_shadowmap_cast.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_cascaded_shadowmap_recv.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_atmospheric.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_final.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_gbuffer.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_light.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_light_mix.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_light_vol_mix.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_dissolution.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_hdr.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_pbr_fwd.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_program.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_program_inter.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_program_mgr.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_reflect_forward.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_screen_quad.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_shadowmap_cast.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_shadowmap_recv.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_show_tex.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_ssao.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_ssr.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_test.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_vol.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_vol_lightdir_extrude.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_vol_radial_blur.h" />
+    <ClInclude Include="..\..\src\lin3d\sphere.h" />
+    <ClInclude Include="..\..\src\lin3d\texture_base.h" />
+    <ClInclude Include="..\..\src\lin3d\texture_mgr.h" />
+    <ClInclude Include="..\..\src\lin3d\texture_win32gl.h" />
+    <ClInclude Include="..\..\src\lin3d\triangle.h" />
+    <ClInclude Include="..\..\src\lin3d\vertex_buf.h" />
+    <ClInclude Include="..\..\src\lin3d\win32gl_glee.h" />
+    <ClInclude Include="..\..\src\lin3d\win_device.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\shader\gl\atmospheric\atmospheric_ground.fs" />
+    <None Include="..\..\shader\gl\atmospheric\atmospheric_ground.vs" />
+    <None Include="..\..\shader\gl\common\common_def.shdr" />
+    <None Include="..\..\shader\gl\common\common_fun.fs" />
+    <None Include="..\..\shader\gl\common\common_fun.vs" />
+    <None Include="..\..\shader\gl\common\common_screen_quad.vs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_atmospheric.fs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_atmospheric.vs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_final.fs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_final.vs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_gbuffer.fs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_gbuffer.vs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_light.fs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_light_mix.fs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_light_mix.vs" />
+    <None Include="..\..\shader\gl\defer_render\defer_render_light_vol_mix.fs" />
+    <None Include="..\..\shader\gl\dissolution\dissolution.fs" />
+    <None Include="..\..\shader\gl\dissolution\dissolution.vs" />
+    <None Include="..\..\shader\gl\hdr\hdr.fs" />
+    <None Include="..\..\shader\gl\pbr\pbr_forward.fs" />
+    <None Include="..\..\shader\gl\pbr\pbr_forward.vs" />
+    <None Include="..\..\shader\gl\reflect_forward\reflect_forward.fs" />
+    <None Include="..\..\shader\gl\reflect_forward\reflect_forward.vs" />
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_cast.fs" />
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_cast.vs" />
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.fs" />
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.vs" />
+    <None Include="..\..\shader\gl\shadowmap\shadowmap_cast.fs" />
+    <None Include="..\..\shader\gl\shadowmap\shadowmap_cast.vs" />
+    <None Include="..\..\shader\gl\shadowmap\shadowmap_recv.fs" />
+    <None Include="..\..\shader\gl\show_tex\show_tex.fs" />
+    <None Include="..\..\shader\gl\ssao\ssao.fs" />
+    <None Include="..\..\shader\gl\ssao\ssao.vs" />
+    <None Include="..\..\shader\gl\ssr\ssr.fs" />
+    <None Include="..\..\shader\gl\ssr\ssr.fs_adapt_step" />
+    <None Include="..\..\shader\gl\ssr\ssr.fs_same_step" />
+    <None Include="..\..\shader\gl\test\test.fs" />
+    <None Include="..\..\shader\gl\test\test.vs" />
+    <None Include="..\..\shader\gl\test\test_defer_render_final.fs" />
+    <None Include="..\..\shader\gl\test\test_defer_render_light.fs" />
+    <None Include="..\..\shader\gl\test\test_mult.fs" />
+    <None Include="..\..\shader\gl\test\test_mult.vs" />
+    <None Include="..\..\shader\gl\test\test_tess.tcs" />
+    <None Include="..\..\shader\gl\test\test_tess.tes" />
+    <None Include="..\..\shader\gl\volume_light\vol.fs" />
+    <None Include="..\..\shader\gl\volume_light\vol.vs" />
+    <None Include="..\..\shader\gl\volume_light\vol_lightdir_vertex_extrude\vol_lightdir_vertex_extrude.fs" />
+    <None Include="..\..\shader\gl\volume_light\vol_lightdir_vertex_extrude\vol_lightdir_vertex_extrude.vs" />
+    <None Include="..\..\shader\gl\volume_light\vol_radial_blur\vol_radial_blur.fs" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

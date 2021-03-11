@@ -1,0 +1,736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="base_obj">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{7cf49f20-e235-491e-a6e2-1f7477f42dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\robj">
+      <UniqueIdentifier>{e4e88510-9c47-402c-ae4f-03f0723fbc4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glew">
+      <UniqueIdentifier>{8210b746-31e6-4a16-b513-43953df97a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{7f8d1231-0d28-4f2f-8775-8998030661f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\atmospheric">
+      <UniqueIdentifier>{bb1ab9e3-264c-4842-b153-b8803b1a8e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\common">
+      <UniqueIdentifier>{a1f89aea-2e8f-4f31-ad1f-cc9b790d99f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\defer_render">
+      <UniqueIdentifier>{bb5d06c4-9297-4619-bc5f-ed392cdd8e27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\hdr">
+      <UniqueIdentifier>{bd5dedc9-9254-499d-bca0-adabb9ce2576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\hdr\hdr">
+      <UniqueIdentifier>{c1cdd37d-913e-48c6-af37-7c333009d8ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\shadowmap">
+      <UniqueIdentifier>{a5fe0bd5-7736-4f8a-800e-e55785d45d7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\shadowmap\csm">
+      <UniqueIdentifier>{8003b85d-f48f-4f17-98ce-3ceb35d8934d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\show_tex">
+      <UniqueIdentifier>{64d9db04-b073-4186-9fb5-8652b1388aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\ssao">
+      <UniqueIdentifier>{0fe48c68-b4b4-4370-88da-41f2658cabe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\ssr">
+      <UniqueIdentifier>{b0b1ddf4-329c-4af8-81ea-e308512e6d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\test">
+      <UniqueIdentifier>{0b4f3514-d203-4fa3-8212-693ab4c44df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\volume_light">
+      <UniqueIdentifier>{2570313f-590a-423c-ac45-2a6b9352c1a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\volume_light\vol_lightdir_vertex_extrude">
+      <UniqueIdentifier>{1a31692b-f577-4908-8929-77bcf234c757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\volume_light\vol_radial_blur">
+      <UniqueIdentifier>{d710a728-14bf-4e31-95ca-2c8789e4fd3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\reflect_forward">
+      <UniqueIdentifier>{d9c939f0-8256-4ae6-b91d-05e8087b7c98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\pbr">
+      <UniqueIdentifier>{5cfc86cc-1419-4f3b-aa12-4a320b6c99ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\disolution">
+      <UniqueIdentifier>{0959057e-142c-42fa-8936-7682cd149000}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\lin3d\common\l3_color.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_engine.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_file.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_image.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_log.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_math.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_null_lock.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_ref_ptr.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_type.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_vector3.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\common\l3_vector4.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\base_obj.cpp">
+      <Filter>base_obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\base_obj_mgr.cpp">
+      <Filter>base_obj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\aabb.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\camera.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\config.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\device_buf.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\image.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\index_buf.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\light.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\light_cam.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\light_mgr.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\material.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\matrix3.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\matrix4.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\mesh.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\mesh_loader_x.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\moveable.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\plane.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\quaternion.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\ray.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\render_target_base.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\render_target_fbo.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\render_target_mgr.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\sence_mgr.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\sence_render_defer.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\sence_render_forward.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\sence_render_test.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\sphere.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\texture_base.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\texture_mgr.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\texture_win32gl.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\triangle.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\vertex_buf.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\win_device.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\render_obj.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_cone.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_geometry.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_plane.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_skeleton.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_skydome.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_sphere.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_vector.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\robj_water.cpp">
+      <Filter>engine\robj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\win32gl_glee.cpp">
+      <Filter>glew</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader.cpp">
+      <Filter>shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_program.cpp">
+      <Filter>shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_program_inter.cpp">
+      <Filter>shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_program_mgr.cpp">
+      <Filter>shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_atmospheric_ground.cpp">
+      <Filter>shader\atmospheric</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_screen_quad.cpp">
+      <Filter>shader\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_atmospheric.cpp">
+      <Filter>shader\defer_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_final.cpp">
+      <Filter>shader\defer_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_gbuffer.cpp">
+      <Filter>shader\defer_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_light.cpp">
+      <Filter>shader\defer_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_light_mix.cpp">
+      <Filter>shader\defer_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_defer_render_light_vol_mix.cpp">
+      <Filter>shader\defer_render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_hdr.cpp">
+      <Filter>shader\hdr\hdr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_shadowmap_cast.cpp">
+      <Filter>shader\shadowmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_shadowmap_recv.cpp">
+      <Filter>shader\shadowmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_cascaded_shadowmap_cast.cpp">
+      <Filter>shader\shadowmap\csm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_cascaded_shadowmap_recv.cpp">
+      <Filter>shader\shadowmap\csm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_show_tex.cpp">
+      <Filter>shader\show_tex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_ssao.cpp">
+      <Filter>shader\ssao</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_ssr.cpp">
+      <Filter>shader\ssr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_test.cpp">
+      <Filter>shader\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_vol.cpp">
+      <Filter>shader\volume_light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_vol_lightdir_extrude.cpp">
+      <Filter>shader\volume_light\vol_lightdir_vertex_extrude</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_vol_radial_blur.cpp">
+      <Filter>shader\volume_light\vol_radial_blur</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_reflect_forward.cpp">
+      <Filter>shader\reflect_forward</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_pbr_fwd.cpp">
+      <Filter>shader\pbr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\shader_dissolution.cpp">
+      <Filter>shader\disolution</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\include\l3_color.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_compile_config.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_dllexp.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_engine.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_enum_define.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_file.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_image.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_log.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_math.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_null_lock.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_ref_ptr.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_type.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_vector3.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\l3_vector4.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\base_obj.h">
+      <Filter>base_obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\base_obj_mgr.h">
+      <Filter>base_obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\aabb.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\blend.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\camera.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\config.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\device_buf.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\image.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\index_buf.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\light.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\light_cam.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\light_mgr.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\material.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\matrix3.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\matrix4.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\mesh.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\mesh_loader_x.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\moveable.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\plane.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\quaternion.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\ray.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\render_target_base.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\render_target_fbo.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\render_target_mgr.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\sence_mgr.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\sence_render_defer.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\sence_render_forward.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\sence_render_test.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\sphere.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\texture_base.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\texture_mgr.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\texture_win32gl.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\triangle.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\vertex_buf.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\win_device.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\render_obj.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_base.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_cone.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_geometry.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_plane.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_skeleton.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_skydome.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_sphere.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_vector.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\robj_water.h">
+      <Filter>engine\robj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\win32gl_glee.h">
+      <Filter>glew</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader.h">
+      <Filter>shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_program.h">
+      <Filter>shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_program_inter.h">
+      <Filter>shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_program_mgr.h">
+      <Filter>shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_atmospheric_ground.h">
+      <Filter>shader\atmospheric</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_screen_quad.h">
+      <Filter>shader\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_atmospheric.h">
+      <Filter>shader\defer_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_final.h">
+      <Filter>shader\defer_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_gbuffer.h">
+      <Filter>shader\defer_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_light.h">
+      <Filter>shader\defer_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_light_mix.h">
+      <Filter>shader\defer_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_defer_render_light_vol_mix.h">
+      <Filter>shader\defer_render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_hdr.h">
+      <Filter>shader\hdr\hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_shadowmap_cast.h">
+      <Filter>shader\shadowmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_shadowmap_recv.h">
+      <Filter>shader\shadowmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_cascaded_shadowmap_cast.h">
+      <Filter>shader\shadowmap\csm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_cascaded_shadowmap_recv.h">
+      <Filter>shader\shadowmap\csm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_show_tex.h">
+      <Filter>shader\show_tex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_ssao.h">
+      <Filter>shader\ssao</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_ssr.h">
+      <Filter>shader\ssr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_test.h">
+      <Filter>shader\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_vol.h">
+      <Filter>shader\volume_light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_vol_lightdir_extrude.h">
+      <Filter>shader\volume_light\vol_lightdir_vertex_extrude</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_vol_radial_blur.h">
+      <Filter>shader\volume_light\vol_radial_blur</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_reflect_forward.h">
+      <Filter>shader\reflect_forward</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_pbr_fwd.h">
+      <Filter>shader\pbr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_dissolution.h">
+      <Filter>shader\disolution</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\shader\gl\atmospheric\atmospheric_ground.fs">
+      <Filter>shader\atmospheric</Filter>
+    </None>
+    <None Include="..\..\shader\gl\atmospheric\atmospheric_ground.vs">
+      <Filter>shader\atmospheric</Filter>
+    </None>
+    <None Include="..\..\shader\gl\common\common_def.shdr">
+      <Filter>shader\common</Filter>
+    </None>
+    <None Include="..\..\shader\gl\common\common_fun.fs">
+      <Filter>shader\common</Filter>
+    </None>
+    <None Include="..\..\shader\gl\common\common_fun.vs">
+      <Filter>shader\common</Filter>
+    </None>
+    <None Include="..\..\shader\gl\common\common_screen_quad.vs">
+      <Filter>shader\common</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_atmospheric.fs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_atmospheric.vs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_final.fs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_final.vs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_gbuffer.fs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_gbuffer.vs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_light.fs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_light_mix.fs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_light_mix.vs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\defer_render\defer_render_light_vol_mix.fs">
+      <Filter>shader\defer_render</Filter>
+    </None>
+    <None Include="..\..\shader\gl\hdr\hdr.fs">
+      <Filter>shader\hdr\hdr</Filter>
+    </None>
+    <None Include="..\..\shader\gl\shadowmap\shadowmap_cast.fs">
+      <Filter>shader\shadowmap</Filter>
+    </None>
+    <None Include="..\..\shader\gl\shadowmap\shadowmap_cast.vs">
+      <Filter>shader\shadowmap</Filter>
+    </None>
+    <None Include="..\..\shader\gl\shadowmap\shadowmap_recv.fs">
+      <Filter>shader\shadowmap</Filter>
+    </None>
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_cast.fs">
+      <Filter>shader\shadowmap\csm</Filter>
+    </None>
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_cast.vs">
+      <Filter>shader\shadowmap\csm</Filter>
+    </None>
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.fs">
+      <Filter>shader\shadowmap\csm</Filter>
+    </None>
+    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.vs">
+      <Filter>shader\shadowmap\csm</Filter>
+    </None>
+    <None Include="..\..\shader\gl\show_tex\show_tex.fs">
+      <Filter>shader\show_tex</Filter>
+    </None>
+    <None Include="..\..\shader\gl\ssao\ssao.fs">
+      <Filter>shader\ssao</Filter>
+    </None>
+    <None Include="..\..\shader\gl\ssao\ssao.vs">
+      <Filter>shader\ssao</Filter>
+    </None>
+    <None Include="..\..\shader\gl\ssr\ssr.fs">
+      <Filter>shader\ssr</Filter>
+    </None>
+    <None Include="..\..\shader\gl\ssr\ssr.fs_adapt_step">
+      <Filter>shader\ssr</Filter>
+    </None>
+    <None Include="..\..\shader\gl\ssr\ssr.fs_same_step">
+      <Filter>shader\ssr</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test.fs">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test.vs">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test_defer_render_final.fs">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test_defer_render_light.fs">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test_mult.fs">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test_mult.vs">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test_tess.tcs">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\test\test_tess.tes">
+      <Filter>shader\test</Filter>
+    </None>
+    <None Include="..\..\shader\gl\volume_light\vol.fs">
+      <Filter>shader\volume_light</Filter>
+    </None>
+    <None Include="..\..\shader\gl\volume_light\vol.vs">
+      <Filter>shader\volume_light</Filter>
+    </None>
+    <None Include="..\..\shader\gl\volume_light\vol_lightdir_vertex_extrude\vol_lightdir_vertex_extrude.fs">
+      <Filter>shader\volume_light\vol_lightdir_vertex_extrude</Filter>
+    </None>
+    <None Include="..\..\shader\gl\volume_light\vol_lightdir_vertex_extrude\vol_lightdir_vertex_extrude.vs">
+      <Filter>shader\volume_light\vol_lightdir_vertex_extrude</Filter>
+    </None>
+    <None Include="..\..\shader\gl\volume_light\vol_radial_blur\vol_radial_blur.fs">
+      <Filter>shader\volume_light\vol_radial_blur</Filter>
+    </None>
+    <None Include="..\..\shader\gl\reflect_forward\reflect_forward.fs">
+      <Filter>shader\reflect_forward</Filter>
+    </None>
+    <None Include="..\..\shader\gl\reflect_forward\reflect_forward.vs">
+      <Filter>shader\reflect_forward</Filter>
+    </None>
+    <None Include="..\..\shader\gl\pbr\pbr_forward.fs">
+      <Filter>shader\pbr</Filter>
+    </None>
+    <None Include="..\..\shader\gl\pbr\pbr_forward.vs">
+      <Filter>shader\pbr</Filter>
+    </None>
+    <None Include="..\..\shader\gl\dissolution\dissolution.fs">
+      <Filter>shader\disolution</Filter>
+    </None>
+    <None Include="..\..\shader\gl\dissolution\dissolution.vs">
+      <Filter>shader\disolution</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,31 @@
+uniform float uni_aspect; //屏幕宽高比
+
+uniform vec2 uni_dep_range; //最大深度
+uniform mat4 uni_world_mtx; //世界变换
+uniform mat4 uni_view_mtx; //观察
+uniform mat4 uni_view_inv_mtx; //观察逆矩阵
+uniform mat4 uni_proj_mtx; //投影矩阵
+
+uniform sampler2D uni_tex1; //纹理1
+uniform sampler2D uni_tex2; //纹理2
+
+uniform sampler2D uni_tex_nml; //法线
+uniform sampler2D uni_tex_clr; //颜色
+uniform sampler2D uni_tex_view_depth; //摄影机空间深度纹理
+uniform sampler2D uni_tex_light; //场景光照
+
+uniform float uni_tan_half_fov; //视角一半的tan值
+
+
+#define E_LIGHT_DIR 0
+#define E_LIGHT_SPOT 1
+#define E_LIGHT_POINT 2
+
+uniform int uni_light_type; //光的类型
+uniform vec3 uni_light_view_spot_dir; //Spotlight方向
+uniform vec4 uni_light_view_pos; //灯光位置(w=0平行光方向 w=1点光源位置)
+uniform vec3 uni_light_clr;
+uniform float uni_light_attenuation; //距离大于此值开始衰减
+uniform float uni_light_max_len; //距离大于此值光线衰减为0
+uniform float uni_light_cutoff_cos; //聚光灯,光锥轴线与边缘夹角的cos值
+uniform float uni_light_exponent; //聚光灯由中心向边缘衰减
