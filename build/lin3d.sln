@@ -22,6 +22,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_rongjie", "demo\test_rongjie\test_rongjie.vcxproj", "{87FBD6DA-F334-4A01-8EA6-32C595C6058E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_csm", "demo\test_csm\test_csm.vcxproj", "{CFCBDB3F-035B-467A-87ED-C3DB34CB92BA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A355AB04-E8F6-45F7-9C8A-6822B49D9FA5} = {A355AB04-E8F6-45F7-9C8A-6822B49D9FA5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
