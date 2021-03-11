@@ -1,3 +1,3 @@
-*.js linguist-language=c++/opengl
-*.css linguist-language=c++/opengl
-*.html linguist-language=c++/opengl
+*.js linguist-language=c++
+*.css linguist-language=c++
+*.html linguist-language=c++
