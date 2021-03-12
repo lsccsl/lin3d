@@ -126,11 +126,12 @@ int main()
 
 	l3_engine e;
 	test_listerner tl(&e);
-	e.init_eng(&tl, 1);
+	e.init_eng(&tl, 0);
 	e.enable_atmospheric(0);
-	e.enable_hdr(0);
+	e.enable_hdr(1);
 	e.enable_debug(1);
 	e.enable_defer_render(1);
+	e.enable_post_vol_rb(1);
 
 	{
 		l3eng::OBJ_ID shader_id = e.shader_get("_l3eng_inter_defer_render_final");

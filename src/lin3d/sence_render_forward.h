@@ -20,6 +20,7 @@
 #include "l3_ref_ptr.h"
 #include "l3_enum_define.h"
 #include "plane.h"
+#include "light.h"
 
 namespace l3eng{
 
@@ -90,12 +91,6 @@ protected:
 	/* @brief 是否是镜像模式 */
 	EN_FORWARD_RENDER_MODE frender_mode_;
 	plane reflect_plane_;
-
-	/* @brief out door main light(sun) */
-	struct outdoor_light
-	{
-	};
-	outdoor_light outdoor_light_;
 };
 
 }

@@ -32,6 +32,7 @@ sence_render_defer::sence_render_defer(sence_mgr * sence):sence_(sence)
 	, enable_hdr_(L3_TRUE)
 	, enable_ssr_(L3_FALSE)
 	, enable_ssao_(L3_TRUE)
+	, enable_post_vol_rb_(L3_FALSE)
 {}
 
 void sence_render_defer::init()
@@ -320,6 +321,16 @@ void sence_render_defer::_init_shader()
 		this->shdr_reflect_ = ptr_shdr;
 		assert(this->shdr_reflect_->is_my_type(ptr_shdr->obj_type()));
 	}
+
+	// volume light radial blur
+	{
+		shader::ptr ptr_shdr;
+		shdr_mgr->get_shader_by_name(shader_program_inter::_l3eng_inter_volume_light_radial_blur, ptr_shdr);
+		assert(!ptr_shdr.is_null());
+
+		this->shdr_vol_rb_ = ptr_shdr;
+		assert(this->shdr_vol_rb_->is_my_type(ptr_shdr->obj_type()));
+	}
 }
 
 void sence_render_defer::render_sence(const L3_RENDER_GROUP render_group)
@@ -382,14 +393,28 @@ void sence_render_defer::_render_sence()
 		tex_input = this->ref_tex_ssr_;
 	}
 
+	OBJ_ID tex_final = tex_input->obj_id();
+	if (this->enable_post_vol_rb_)
+	{
+		this->shdr_vol_rb_->set_test_mode(0);
+		this->shdr_vol_rb_->vol_rb_tex_src(tex_input->obj_id());
+		dev->active_shdr(this->shdr_vol_rb_);
+		this->shdr_vol_rb_->pre_frame(this->sence_);
+		this->shdr_vol_rb_->render_screen_quad(this->sence_);
+		this->shdr_vol_rb_->post_frame(this->sence_);
+		dev->set_active_shdr_null();
+
+		tex_final = this->shdr_vol_rb_->tex_output_final();
+	}
+
 	//hdr´¦Àí
 	if(this->enable_hdr_)
 	{
-		this->_render_hdr(tex_input);
+		this->_render_hdr(tex_final);
 	}
 	else
 	{
-		this->sence_->render_show_tex(tex_input->obj_id(),
+		this->sence_->render_show_tex(tex_final,
 			0.0f, 0.0f,
 			2.0f, 2.0f, 0.9f);
 	}
@@ -1141,11 +1166,8 @@ void sence_render_defer::_render_atmospheric()
 	dev->set_active_shdr_null();
 }
 
-void sence_render_defer::_render_hdr(texture_base::ptr& tex_input)
+void sence_render_defer::_render_hdr(OBJ_ID tex_input)
 {
-	if(this->ref_tex_final_.is_null())
-		return;
-
 	win_device * dev = this->sence_->eng()->dev();
 	assert(dev);
 
@@ -1153,7 +1175,7 @@ void sence_render_defer::_render_hdr(texture_base::ptr& tex_input)
 	dev->active_shdr(this->shdr_hdr_);
 	this->shdr_hdr_->pre_frame(this->sence_);
 
-	this->shdr_hdr_->tex_final(tex_input->obj_id());
+	this->shdr_hdr_->tex_final(tex_input);
 
 	this->shdr_hdr_->pix_offset_x(1.0f / dev->width());
 	this->shdr_hdr_->pix_offset_y(1.0f / dev->height());

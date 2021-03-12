@@ -1601,6 +1601,12 @@ void l3_engine::enable_ssao(l3_bool e)
 	this->sence_->enable_ssao(e);
 }
 
+void l3_engine::enable_post_vol_rb(l3_bool e)
+{
+	assert(this->sence_);
+	this->sence_->enable_post_vol_rb(e);
+}
+
 
 // for debug
 void l3_engine::set_reflect_mode(const l3_f32 nx, const l3_f32 ny, const l3_f32 nz, const l3_f32 d)

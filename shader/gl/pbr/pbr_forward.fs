@@ -127,6 +127,7 @@ void pbr_light_dir()
 #else	
 	// F 菲涅尔 F = F0 + (1 - F0) * pow((1 - cos_view), 5)
 	// F0 = Metalic * Albedo + (1 - Metalic) * vec3(0.04, 0.04, 0.04)  Albedo为金属颜色  Metalic表示金属度 0-1
+	// another easy fresnel  pow(1 - dot(world_nml, view_dir), 2)
 	vec3 f0 = uni_metalic * albedo + (1 - uni_metalic) * vec3(0.04, 0.04, 0.04);
 	vec3 fresnel = f0 + (1 - f0) * pow((1 - cos_view), 5);  //vec3 fresnel = f0 + (1 - f0) * pow((1 - cos_half), 5);
 #endif

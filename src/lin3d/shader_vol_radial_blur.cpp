@@ -142,35 +142,51 @@ void shader_vol_radial_blur::render_screen_quad(sence_mgr * sence)
 		this->shdr_prg_->uni_bind_float(this->uni_offset_loc_, offset);
 		this->shdr_prg_->uni_bind_tex(this->uni_tex_src_loc_, this->tex_radial_blur_[cur_src_idx]);
 
-//if(i < MAX_RADIAL_BLUR)
 		dev->enable_rtt(this->rtt_radial_blur_[cur_dst_idx]);
 		this->screen_quad_.render_screen_quad(this->shdr_prg_);
-//if(i < MAX_RADIAL_BLUR)
 		dev->disable_rtt(this->rtt_radial_blur_[cur_dst_idx]);
+
+		this->tex_radial_blur_final_ = this->tex_radial_blur_[cur_dst_idx];
+		this->rtt_output_final_ = this->rtt_radial_blur_[cur_src_idx];
+		this->tex_output_final_ = this->tex_radial_blur_[cur_src_idx];
 
 		cur_src_idx = 1 - cur_src_idx;
 		cur_dst_idx = 1 - cur_dst_idx;
 	}
 
-#if 1
-// 与原图混合
-this->shdr_prg_->uni_bind_int(this->uni_vol_radial_blur_stage_loc_, VOL_RADIAL_BLUR_STAGE_test_final);
-{
-	this->shdr_prg_->uni_bind_tex(this->uni_tex_src_loc_, this->vol_rb_tex_src_);
-	this->shdr_prg_->uni_bind_tex(this->uni_tex_src1_loc_, this->tex_radial_blur_[cur_src_idx]);
-	this->screen_quad_.render_screen_quad(this->shdr_prg_);
-}
-#endif
+	// 与原图混合
+	this->shdr_prg_->uni_bind_int(this->uni_vol_radial_blur_stage_loc_, VOL_RADIAL_BLUR_STAGE_test_final);
+	{
+		this->shdr_prg_->uni_bind_tex(this->uni_tex_src_loc_, this->vol_rb_tex_src_);
+		this->shdr_prg_->uni_bind_tex(this->uni_tex_src1_loc_, this->tex_radial_blur_final_);
 
-#if 1
-{
-	this->eng_->sence()->render_show_tex(this->tex_radial_blur_[cur_src_idx],
-		1.f, 1.f, 1.f, 1.f
-		//0,0,2,2
-		);
-}
-#endif
+		dev->enable_rtt(this->rtt_output_final_);
+		this->screen_quad_.render_screen_quad(this->shdr_prg_);
+		dev->disable_rtt(this->rtt_output_final_);
+	}
 
+	if (this->is_test_mode_)
+	{
+		//// 与原图混合
+		//this->shdr_prg_->uni_bind_int(this->uni_vol_radial_blur_stage_loc_, VOL_RADIAL_BLUR_STAGE_test_final);
+		//{
+		//	this->shdr_prg_->uni_bind_tex(this->uni_tex_src_loc_, this->vol_rb_tex_src_);
+		//	this->shdr_prg_->uni_bind_tex(this->uni_tex_src1_loc_, this->tex_radial_blur_final_);
+		//	this->screen_quad_.render_screen_quad(this->shdr_prg_);
+		//}
+
+		{
+			this->eng_->sence()->render_show_tex(tex_output_final_,
+				0.0f, 1.f, 1.f, 1.f
+			);
+		}
+
+		{
+			this->eng_->sence()->render_show_tex(tex_radial_blur_final_,
+				1.f, 1.f, 1.f, 1.f
+			);
+		}
+	}
 }
 
 }

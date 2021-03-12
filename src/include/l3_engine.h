@@ -250,7 +250,7 @@ public:
 	l3_engine();
 	~l3_engine();
 
-	l3_int32 init_eng(frame_listener * fl, l3_bool test_mode);
+	l3_int32 init_eng(frame_listener * fl, l3_bool test_mode = L3_FALSE);
 
 
 	void run();
@@ -517,6 +517,7 @@ public:
 	void enable_atmospheric(l3_bool e);
 	void enable_hdr(l3_bool e);
 	void enable_ssao(l3_bool e);
+	void enable_post_vol_rb(l3_bool e);
 
 	void set_title(const char * name);
 

@@ -35,6 +35,25 @@ light::ptr light_mgr::create_light()
 	return l;
 }
 
+light::ptr light_mgr::create_light_dir(const l3_f32 x_degree, const l3_f32 y_degree, const l3_f32 z_degree,
+	const color& clr_diff)
+{
+	light::ptr l = this->create_light();
+	if (l.is_null())
+		return l;
+	light_mgr::light_info::ptr li;
+	this->get_light_info(l->obj_id(), li);
+	if (li.is_null())
+		return l;
+
+	l->set_rotate(x_degree, y_degree, z_degree);
+	li->l_cam_->recal_light_mtx();
+
+	l->diffuse() = clr_diff;
+
+	return l;
+}
+
 l3_int32 light_mgr::get_light(OBJ_ID obj_id, light::ptr& l)
 {
 	MAP_LIGHT::iterator it = this->map_light_.find(obj_id);

@@ -34,6 +34,7 @@
 #include "shader_ssr.h"
 #include "camera.h"
 #include "shader_reflect_forward.h"
+#include "shader_vol_radial_blur.h"
 
 /*
 gbuffer 法线/漫反射/深度  深度(透视) width x height --- done
@@ -88,6 +89,11 @@ public:
 		this->enable_ssao_  = e;
 	}
 
+	inline void enable_post_vol_rb(l3_bool e)
+	{
+		this->enable_post_vol_rb_ = e;
+	}
+
 private:
 
 	void _init_shader();
@@ -104,7 +110,7 @@ private:
 	void _render_atmospheric();
 	void _render_final(texture_base::ptr& tex_out_put);
 	void _render_forward(texture_base::ptr& tex_out_put);
-	void _render_hdr(texture_base::ptr& tex_input);
+	void _render_hdr(OBJ_ID tex_input);
 	void _render_ssr(texture_base::ptr& tex_reflect_src);
 
 	void _render_light_one            (const light_mgr::light_info::ptr& li);
@@ -168,6 +174,9 @@ private:
 
 	/* @brief 反射 */
 	shader_reflect_forward::ptr shdr_reflect_;
+
+	/* @brief volume light radial blur */
+	shader_vol_radial_blur::ptr shdr_vol_rb_;
 
 
 	/* @brief 窗口大小的render target */
@@ -236,6 +245,7 @@ private:
 	l3_bool enable_hdr_;
 	l3_bool enable_ssr_;
 	l3_bool enable_ssao_;
+	l3_bool enable_post_vol_rb_;
 };
 
 }

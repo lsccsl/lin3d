@@ -398,29 +398,36 @@ void sence_render_test::_render_sence()
 	}
 #endif
 
+	OBJ_ID tex_final = tex_input->obj_id();
+
 	//高亮与hdr合并
 	//将体积光融合进最终位图
 
-#if 1
+	this->shdr_vol_rb_->set_test_mode(1);
 	this->shdr_vol_rb_->vol_rb_tex_src(tex_input->obj_id());
 	dev->active_shdr(this->shdr_vol_rb_);
 	this->shdr_vol_rb_->pre_frame(this->sence_);
 	this->shdr_vol_rb_->render_screen_quad(this->sence_);
 	this->shdr_vol_rb_->post_frame(this->sence_);
 	dev->set_active_shdr_null();
-#else
+
+	//this->sence_->render_show_tex(this->shdr_vol_rb_->tex_output_final(),
+	//	0.0f, 0.0f,
+	//	2.0f, 2.0f, 0.9f);
+
+	tex_final = this->shdr_vol_rb_->tex_output_final();
+
 	//hdr处理
 	if(this->enable_hdr_)
 	{
-		this->_render_hdr(tex_input);
+		this->_render_hdr(tex_final);
 	}
 	else
 	{
-		this->sence_->render_show_tex(tex_input->obj_id(),
+		this->sence_->render_show_tex(tex_final,
 			0.0f, 0.0f,
 			2.0f, 2.0f, 0.9f);
 	}
-#endif
 }
 
 void sence_render_test::_release_all_tex()
@@ -1134,11 +1141,8 @@ void sence_render_test::_render_atmospheric()
 	dev->set_active_shdr_null();
 }
 
-void sence_render_test::_render_hdr(texture_base::ptr& tex_input)
+void sence_render_test::_render_hdr(OBJ_ID tex_input)
 {
-	if(this->ref_tex_final_.is_null())
-		return;
-
 	win_device * dev = this->sence_->eng()->dev();
 	assert(dev);
 
@@ -1146,7 +1150,7 @@ void sence_render_test::_render_hdr(texture_base::ptr& tex_input)
 	dev->active_shdr(this->shdr_hdr_);
 	this->shdr_hdr_->pre_frame(this->sence_);
 
-	this->shdr_hdr_->tex_final(tex_input->obj_id());
+	this->shdr_hdr_->tex_final(tex_input);
 
 	this->shdr_hdr_->pix_offset_x(1.0f / dev->width());
 	this->shdr_hdr_->pix_offset_y(1.0f / dev->height());
@@ -1178,6 +1182,28 @@ void sence_render_test::_render_ssr(texture_base::ptr& tex_reflect_src)
 
 	this->shdr_ssr_->post_frame(this->sence_);
 	dev->set_active_shdr_null();
+}
+
+void sence_render_test::set_sun_light(const l3_f32 x_degree, const l3_f32 y_degree, const l3_f32 z_degree)
+{
+	light::ptr l = this->sence_->get_light_mgr()->create_light_dir(x_degree, y_degree, z_degree);
+	if (l.is_null())
+		return;
+	outdoor_light_.sun_light_ = l;
+}
+
+void sence_render_test::_render_sunlight_cascaded_shadowmap_cast()
+{
+	//分割摄像机视截体
+	//this->sence_->cam_cur()-> // frustum_mesh_t
+	//为每个视截体生成包围盒,并得到平行光摄影机变换矩阵x4
+	//虚拟平行光摄影机得到深度纹理
+}
+
+void sence_render_test::_render_sunlight_cascaded_shadowmap_recv()
+{
+	//传入4个深度纹理,以及对应的摄影机变换矩阵 
+	//每个像素点根据深度,用对应的变换矩阵与深度纹理,查询出阴影
 }
 
 void sence_render_test::_debug()

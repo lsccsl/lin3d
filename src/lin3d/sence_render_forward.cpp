@@ -26,7 +26,9 @@ namespace l3eng{
 
 sence_render_forward::sence_render_forward(sence_mgr * sence):sence_(sence)
 	,frender_mode_(EN_FORWARD_RENDER_MODE_NORMAL)
-{}
+{
+	assert(sence_);
+}
 
 void sence_render_forward::render_sence(const L3_RENDER_GROUP render_group)
 {

@@ -90,6 +90,8 @@ public:
 		this->enable_ssao_  = e;
 	}
 
+	void set_sun_light(const l3_f32 x_degree, const l3_f32 y_degree, const l3_f32 z_degree);
+
 private:
 
 	void _init_shader();
@@ -106,7 +108,7 @@ private:
 	void _render_atmospheric();
 	void _render_final(texture_base::ptr& tex_out_put);
 	void _render_forward(texture_base::ptr& tex_out_put);
-	void _render_hdr(texture_base::ptr& tex_input);
+	void _render_hdr(OBJ_ID tex_input);
 	void _render_ssr(texture_base::ptr& tex_reflect_src);
 
 	void _render_light_one            (const light_mgr::light_info::ptr& li);
@@ -116,6 +118,9 @@ private:
 	void _render_light_one_vol        (const light_mgr::light_info::ptr& li);
 	void _render_light_one_mix        (const light_mgr::light_info::ptr& li);
 	void _render_light_one_vol_mix    (const light_mgr::light_info::ptr& li);
+
+	void _render_sunlight_cascaded_shadowmap_cast();
+	void _render_sunlight_cascaded_shadowmap_recv();
 
 	void _render_reflect_tex();
 	void _render_refract_tex();
@@ -234,6 +239,17 @@ private:
 	///* @brief 近景处理结果纹理 */
 	//texture_base::ptr ref_tex_obj_;
 
+	/* @brief out door main light(sun) */
+	struct outdoor_light
+	{
+		outdoor_light() :cascaded_count_(4)
+		{}
+
+		light::ptr sun_light_;
+		/* @brief 阴影纹理级联数量 */
+		l3_int32 cascaded_count_;
+	};
+	outdoor_light outdoor_light_;
 
 	sence_mgr * sence_;
 	l3_bool enable_atmospheric_;

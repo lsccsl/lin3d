@@ -85,8 +85,12 @@ public:
 
 	inline l3_engine * eng(){ return this->eng_; }
 
+	/* @brief 场景的主摄影机,供l3_engine提供应用程序设置属性(内部不使用此数据) */
 	inline camera * cam_main(){ return this->cam_main_.get(); }
 
+	/* @brief 当前摄影机,所有的shader取这个进行绘制
+	* (正常绘制时是main cam,绘制水体反射与折射是临时生成的一个摄影机)
+	*/
 	inline camera * cam_cur(){ return this->cam_cur_.get(); }
 	inline void reset_cam_cur()
 	{
@@ -156,9 +160,22 @@ public:
 		}
 	}
 
+	inline void enable_post_vol_rb(l3_bool e)
+	{
+		if (!this->sence_render_.is_null())
+			this->sence_render_->enable_post_vol_rb(e);
+		else
+		{
+#ifdef HAS_TEST_MODE
+			//if (!this->sence_test_render_.is_null())
+			//	this->sence_test_render_->enable_post_vol_rb(e);
+#endif
+		}
+	}
+
 	void render_show_tex(OBJ_ID rtt_tex,
-		const l3_f32 x_start, const l3_f32 y_start,
-		const l3_f32 x_len, const l3_f32 y_len,
+		const l3_f32 x_start = 0.0f, const l3_f32 y_start = 0.0f,
+		const l3_f32 x_len = 2.0f, const l3_f32 y_len = 2.0f,
 		const l3_f32 dep = 0.0f);
 
 	inline void render_show_rtt_tex(OBJ_ID rtt, const l3_uint32 tex_idx,

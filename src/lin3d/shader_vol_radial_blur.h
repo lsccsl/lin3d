@@ -18,6 +18,7 @@
 #define __L3ENG_SHADER_VOL_RADIAL_BLUR_H__
 
 
+#include <string>
 #include "shader.h"
 #include "shader_screen_quad.h"
 #include "shader_program_inter.h"
@@ -64,6 +65,17 @@ public:
 		this->vol_rb_hl_threshold_ = f;
 	}
 
+	OBJ_ID tex_radial_blur_final() {
+		return this->tex_radial_blur_final_;
+	}
+	OBJ_ID tex_output_final() {
+		return this->tex_output_final_;
+	}
+
+	void set_test_mode(l3_bool b) {
+		this->is_test_mode_ = b;
+	}
+
 private:
 
 	/* @brief screen quad */
@@ -76,6 +88,7 @@ private:
 	l3_int32 uni_light_pos_loc_;
 	l3_int32 uni_offset_loc_;
 
+	/* @brief 输入的纹理 */
 	OBJ_ID vol_rb_tex_src_;
 	l3_f32 vol_rb_hl_threshold_;
 
@@ -85,9 +98,17 @@ private:
 	OBJ_ID rtt_radial_blur_[2];
 	OBJ_ID tex_radial_blur_[2];
 
+	/* @brief 径向模糊结果 */
+	OBJ_ID tex_radial_blur_final_;
+	/* @brief 与输入纹理vol_rb_tex_src_混合的结果 */
+	OBJ_ID rtt_output_final_;
+	OBJ_ID tex_output_final_;
+
 	/* @brief 转换到屏幕空间的光源位置(2d) */
 	l3_f32 light_pos_x_;
 	l3_f32 light_pos_y_;
+
+	l3_bool is_test_mode_ = L3_FALSE;
 };
 
 }
