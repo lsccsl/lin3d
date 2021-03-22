@@ -25,6 +25,7 @@
 #include "base_obj.h"
 #include "device_buf.h"
 #include "matrix4.h"
+#include "vector2.h"
 
 namespace l3eng{
 
@@ -124,9 +125,11 @@ public:
 	l3_int32 active()const;
 	l3_int32 inactive();
 
+	/* @brief 所有其它类型uniform变量 */
 	l3_int32 get_uniform_info(const std::string& name, glsl_param_t& info)const;
 	l3_int32 get_uniform_loc(const std::string& name)const;
 
+	/* @brief 纹理uniform专用 */
 	l3_int32 get_uniform_tex(const std::string& name, glsl_param_tex_t& info)const;
 	l3_int32 get_uniform_tex_loc(const std::string& name)const;
 
@@ -159,6 +162,9 @@ public:
 	l3_int32 uni_bind_float_ve2(const l3_int32 loc,
 		const l3_f32 f1,
 		const l3_f32 f2);
+	/* @brief 绑定二维向量数组 */
+	l3_int32 uni_bind_float_vec2_array(const l3_int32 loc,
+		const std::vector<vector2>& vf);
 
 	/* @brief 绑定三维向量 */
 	l3_int32 uni_bind_float_vec3(const l3_int32 loc,
@@ -176,7 +182,6 @@ public:
 	/* @brief 绑定浮点数 */
 	l3_int32 uni_bind_float(const l3_int32 loc,
 		const l3_f32 f);
-
 	/* @brief 绑定浮点数组 */
 	l3_int32 uni_bind_float_array(const l3_int32 loc,
 		const l3_f32 * pf, const l3_uint32 pf_sz);
@@ -184,6 +189,9 @@ public:
 	/* @brief 绑定4x4矩阵 */
 	l3_int32 uni_bind_mat4(const l3_int32 loc,
 		const matrix4& mtx);
+	/* @brief 绑定4x4矩阵数组 */
+	l3_int32 uni_bind_mat4_array(const l3_int32 loc,
+		const std::vector<matrix4>& v_mtx);
 
 	/* @brief 绑定整型数 */
 	l3_int32 uni_bind_int(const l3_int32 loc,
@@ -221,6 +229,7 @@ private:
 	/* @brief 一次draw call呼叫的全局变量uniform location */
 	MAP_GLSL_PARAM map_uniform_info_;
 	MAP_GLSL_NAME_LOC map_uniform_name_;
+	/* @brief opengl自带的变量 */
 	MAP_GLSL_PARAM map_gl_uniform_info_;
 	MAP_GLSL_NAME_LOC map_gl_uniform_name_;
 

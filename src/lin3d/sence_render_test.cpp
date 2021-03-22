@@ -32,10 +32,10 @@
 namespace l3eng{
 
 sence_render_test::sence_render_test(sence_mgr * sence):sence_(sence)
-	, enable_atmospheric_(L3_TRUE)
-	, enable_hdr_(L3_TRUE)
+	, enable_atmospheric_(L3_FALSE)
+	, enable_hdr_(L3_FALSE)
 	, enable_ssr_(L3_FALSE)
-	, enable_ssao_(L3_TRUE)
+	, enable_ssao_(L3_FALSE)
 {}
 
 void sence_render_test::init()
@@ -333,7 +333,26 @@ void sence_render_test::_init_shader()
 
 		this->shdr_vol_rb_ = ptr_shdr;
 		assert(this->shdr_vol_rb_->is_my_type(ptr_shdr->obj_type()));
-	}	
+	}
+
+	// csm caster shader
+	{
+		shader::ptr ptr_shdr;
+		shdr_mgr->get_shader_by_name(shader_program_inter::_l3eng_inter_cascaded_shadowmap_cast, ptr_shdr);
+		assert(!ptr_shdr.is_null());
+
+		this->shdr_csm_cast_ = ptr_shdr;
+		assert(this->shdr_csm_cast_->is_my_type(ptr_shdr->obj_type()));
+	}
+	// csm recver shader
+	{
+		shader::ptr ptr_shdr;
+		shdr_mgr->get_shader_by_name(shader_program_inter::_l3eng_inter_cascaded_shadowmap_recv, ptr_shdr);
+		assert(!ptr_shdr.is_null());
+
+		this->shdr_csm_recv_ = ptr_shdr;
+		assert(this->shdr_csm_recv_->is_my_type(ptr_shdr->obj_type()));
+	}
 }
 
 void sence_render_test::render_sence(const L3_RENDER_GROUP render_group)
@@ -371,6 +390,9 @@ void sence_render_test::_render_sence()
 	//光照/阴影/体积光
 	this->_render_light();
 
+	this->_render_sunlight_cascaded_shadowmap_cast();
+	this->_render_sunlight_cascaded_shadowmap_recv();
+
 	//大气散射
 	if(this->enable_atmospheric_)
 		this->_render_atmospheric();
@@ -403,7 +425,7 @@ void sence_render_test::_render_sence()
 	//高亮与hdr合并
 	//将体积光融合进最终位图
 
-	this->shdr_vol_rb_->set_test_mode(1);
+	this->shdr_vol_rb_->set_test_mode(0);
 	this->shdr_vol_rb_->vol_rb_tex_src(tex_input->obj_id());
 	dev->active_shdr(this->shdr_vol_rb_);
 	this->shdr_vol_rb_->pre_frame(this->sence_);
@@ -1184,26 +1206,81 @@ void sence_render_test::_render_ssr(texture_base::ptr& tex_reflect_src)
 	dev->set_active_shdr_null();
 }
 
-void sence_render_test::set_sun_light(const l3_f32 x_degree, const l3_f32 y_degree, const l3_f32 z_degree)
+void sence_render_test::set_sun_light(OBJ_ID light_obj)
 {
-	light::ptr l = this->sence_->get_light_mgr()->create_light_dir(x_degree, y_degree, z_degree);
-	if (l.is_null())
+	light_mgr::light_info::ptr li;
+	this->sence_->get_light_mgr()->get_light_info(light_obj, li);
+	if (li.is_null())
 		return;
-	outdoor_light_.sun_light_ = l;
+	if (li->l_->light_type() != light::E_LIGHT_DIR_OUTDOOR)
+		return;
+	shdr_csm_cast_->set_light_info(light_obj);
 }
 
 void sence_render_test::_render_sunlight_cascaded_shadowmap_cast()
 {
-	//分割摄像机视截体
-	//this->sence_->cam_cur()-> // frustum_mesh_t
-	//为每个视截体生成包围盒,并得到平行光摄影机变换矩阵x4
-	//虚拟平行光摄影机得到深度纹理
+	win_device* dev = this->sence_->eng()->dev();
+	assert(dev);
+
+	this->shdr_csm_cast_->cal_cam_seg();
+
+	//得到shadow map
+	dev->push_cull_info();
+	dev->enable_cull_front();
+	//win_device::print_error(__FILE__, __LINE__);
+	dev->active_shdr(this->shdr_csm_cast_);
+
+	do {
+		this->shdr_csm_cast_->pre_frame(this->sence_);
+		const sence_mgr::MAP_ROBJ& render_obj = this->sence_->render_group_obj(L3_RENDER_GROUP_DEFAULT);
+		for (sence_mgr::MAP_ROBJ::const_iterator it = render_obj.begin(); it != render_obj.end(); it++)
+		{
+			robj_base* robj = it->second.get();
+
+			this->shdr_csm_cast_->prepare(*robj);
+			robj->render();
+		}
+		this->shdr_csm_cast_->post_frame(this->sence_);
+	} while (this->shdr_csm_cast_->next_cam_seg());
+
+	dev->set_active_shdr_null();
+	win_device::print_error(__FILE__, __LINE__);
+	dev->pop_cull_info();
+
+#ifdef HAS_TEST_MODE
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(0),
+	//	0.0f, 1.f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(1),
+	//	1.0f, 1.f, 0.5f, 0.5f);
+	this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(0),
+		1.5f, 1.5f, 0.5f, 0.5f);
+#endif
 }
 
 void sence_render_test::_render_sunlight_cascaded_shadowmap_recv()
 {
 	//传入4个深度纹理,以及对应的摄影机变换矩阵 
 	//每个像素点根据深度,用对应的变换矩阵与深度纹理,查询出阴影
+
+	win_device::print_error(__FILE__, __LINE__);
+
+	win_device* dev = this->sence_->eng()->dev();
+	assert(dev);
+
+	this->shdr_csm_recv_->set_sence_dep_tex(this->tex_gbuffer_dep_line_->obj_id());
+	if (!this->ref_tex_light_mix_.is_null())
+		this->shdr_csm_recv_->set_sence_light(this->ref_tex_light_mix_->obj_id());
+	this->shdr_csm_recv_->get_csm_cast_info(*shdr_csm_cast_);
+
+	dev->active_shdr(this->shdr_csm_recv_);
+
+	this->shdr_csm_recv_->pre_frame(this->sence_);
+	this->shdr_csm_recv_->render_screen_quad(this->sence_);
+	this->shdr_csm_recv_->post_frame(this->sence_);
+
+	dev->set_active_shdr_null();
+	this->sence_->render_show_tex(this->shdr_csm_recv_->tex_light_shadow(),
+		0.0f, 0.f, 2.0f, 2.0f);
 }
 
 void sence_render_test::_debug()
@@ -1306,6 +1383,10 @@ void sence_render_test::_debug()
 	dev->set_proj_matrix(this->sence_->cam_cur()->proj_mtx());
 	dev->set_view_matrix(this->sence_->cam_cur()->view_mtx());
 
+	//l3_blend_mode_t old_blend =  dev->blend_mode();
+	//dev->blend_mode(L3_BLEND_MODE_NONE);
+	shdr_csm_cast_->debug_render();
+	//dev->blend_mode(old_blend);
 	const light_mgr::MAP_LIGHT& map_light = this->sence_->get_light_mgr()->get_map_light();
 	for(light_mgr::MAP_LIGHT::const_iterator it = map_light.begin(); it != map_light.end(); it ++)
 	{
@@ -1318,6 +1399,7 @@ void sence_render_test::_debug()
 		switch(l.light_type())
 		{
 		case light::E_LIGHT_DIR:
+		case light::E_LIGHT_DIR_OUTDOOR:
 			{
 				robj_cone cone(this->sence_);
 				cone.get_material().enable_depth_test(L3_FALSE);
@@ -1401,6 +1483,11 @@ void sence_render_test::_debug_light(l3_int32 idx)
 		debug_x += debug_width;
 	}
 
+}
+
+void sence_render_test::debug_enble_csm_gen()
+{
+	this->shdr_csm_cast_->debug_enble_gen_bbox();
 }
 
 

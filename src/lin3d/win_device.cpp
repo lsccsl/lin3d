@@ -67,7 +67,7 @@ l3_int32 win_device::print_error(char *file, int line)
 	gl_err = glGetError();
 	while (gl_err != GL_NO_ERROR)
 	{
-		L3_LOG_ENG_TRACE(("glError in file %s @ line %d: %s\n", file, line, gluErrorString(gl_err)));
+		L3_LOG_ENG_TRACE(("glError in file %s @ line %d: glGetError:%d %s\n", file, line, gl_err, gluErrorString(gl_err)));
 		ret += 1;
 		gl_err = glGetError();
 	}
@@ -324,7 +324,11 @@ l3_int32 win_device::wnd_proc(unsigned int message, l3_uint64 wParam, l3_uint64 
 			this->height_ = HIWORD(lParam);
 			this->width_ = LOWORD(lParam);
 
+#if 1
 			glViewport(0, 0, (GLsizei)this->width_, (GLsizei)this->height_);
+#else
+			//glViewport(0, this->height_/2, (GLsizei)this->width_, (GLsizei)this->height_);
+#endif
 
 			this->eng_->dev_window_size(this->width_, this->height_);
 		}
@@ -516,7 +520,11 @@ void win_device::disable_rtt(OBJ_ID rtt)
 	if(!rtt_ptr.is_null())
 		rtt_ptr->disable();
 
+#if 1
 	glViewport(0, 0, (GLsizei)this->width_, (GLsizei)this->height_);
+#else
+	//glViewport(this->width_/2, this->height_/2, (GLsizei)this->width_, (GLsizei)this->height_);
+#endif
 }
 
 void win_device::clear_fbo(OBJ_ID rtt)

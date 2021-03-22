@@ -497,6 +497,28 @@ l3_int32 shader_program::uni_bind_float_ve2(const l3_int32 loc,
 
 	return 0;
 }
+l3_int32 shader_program::uni_bind_float_vec2_array(const l3_int32 loc,
+	const std::vector<vector2>& vf)
+{
+	MAP_GLSL_PARAM::iterator it = this->map_uniform_info_.find(loc);
+	if (it == this->map_uniform_info_.end())
+		return -1;
+	if (vf.size() < it->second.size_)
+	{
+		L3_LOG_ENG_WARN(("float array size not match input size:%d glsl size:%d", vf.size(), it->second.size_));
+		return -1;
+	}
+	it->second.b_bind_ = L3_TRUE;
+
+	device_buf_base::ptr& buf = it->second.buf_;
+	if (buf.is_null())
+		buf = device_buf_base::ptr(new device_common_buf);
+
+	buf->clear();
+	for (l3_int32 i = 0; i < vf.size(); i++)
+		buf->append_buf((void *)vf[i].get_vector3_data(), vf[i].get_vector3_data_sz());
+	return 0;
+}
 
 l3_int32 shader_program::uni_bind_float_vec3(const l3_int32 loc,
 	const l3_f32 f1,
@@ -580,6 +602,12 @@ l3_int32 shader_program::uni_bind_float_array(const l3_int32 loc,
 	MAP_GLSL_PARAM::iterator it =  this->map_uniform_info_.find(loc);
 	if(it == this->map_uniform_info_.end())
 		return -1;
+	if (pf_sz != it->second.size_)
+	{
+		L3_LOG_ENG_WARN(("float array size not match input size:%d glsl size:%d", pf_sz, it->second.size_));
+		return -1;
+	}
+
 	it->second.b_bind_ = L3_TRUE;
 
 	device_buf_base::ptr& buf = it->second.buf_;
@@ -616,9 +644,37 @@ l3_int32 shader_program::uni_bind_mat4(const l3_int32 loc,
 	buf->resize_buf_sz(sizeof(l3_f32) * 16);
 	l3_f32 * pbuf = (l3_f32 *)buf->get_buf();
 
-	memcpy(pbuf, mtx_transpose.get_matrix_data(), sizeof(l3_f32) * 16);
+	memcpy(pbuf, mtx_transpose.get_matrix_data(), mtx_transpose.get_mtx_memsz()/*sizeof(l3_f32) * 16*/);
 
 	return 0;
+}
+
+/* @brief °ó¶¨4x4¾ØÕóÊý×é */
+l3_int32 shader_program::uni_bind_mat4_array(const l3_int32 loc,
+	const std::vector<matrix4>& v_mtx)
+{
+	MAP_GLSL_PARAM::iterator it = this->map_uniform_info_.find(loc);
+	if (it == this->map_uniform_info_.end())
+		return -1;
+	if (v_mtx.size() != it->second.size_)
+	{
+		//L3_LOG_ENG_WARN(("mtx array size not match input size:%d glsl size:%d", v_mtx.size(), it->second.size_));
+		//return -1;
+	}
+
+	it->second.b_bind_ = L3_TRUE;
+
+	device_buf_base::ptr& buf = it->second.buf_;
+	if (buf.is_null())
+		buf = device_buf_base::ptr(new device_common_buf);
+
+	buf->clear();
+	matrix4 mtx_transpose;
+	for (l3_int32 i = 0; i < v_mtx.size(); i++)
+	{
+		v_mtx[i].transpose(mtx_transpose);
+		buf->append_buf((void *)mtx_transpose.get_matrix_data(), mtx_transpose.get_mtx_memsz());
+	}
 }
 
 l3_int32 shader_program::uni_bind_int(const l3_int32 loc,

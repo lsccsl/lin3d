@@ -30,6 +30,11 @@ void device_buf_base::deep_copy(const device_buf_base::ptr& buf_src)
 device_common_buf::~device_common_buf()
 {}
 
+void device_common_buf::clear()
+{
+	this->buf_.resize(0);
+}
+
 void * device_common_buf::get_buf()
 {
 #ifdef VECTOR_BUF
@@ -86,6 +91,14 @@ l3_int32 device_common_buf::get_buf_cap()
 #endif
 }
 
+void device_common_buf::append_buf(void* p, l3_uint32 sz)
+{
+	if (!p || 0 == sz)
+		return;
 
+	l3_uint32 old_sz = this->buf_.size();
+	this->buf_.resize(this->buf_.size() + sz);
+	memcpy(&this->buf_[old_sz], p, sz);
+}
 
 }

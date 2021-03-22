@@ -86,7 +86,7 @@ const char * __shadowmap_cast_fs = "file:/shader/gl/shadowmap/shadowmap_cast.fs"
 
 const char * __cascaded_shadowmap_cast_vs = "file:/shader/gl/shadowmap/csm/cascadedshadowmap_cast.vs";
 const char * __cascaded_shadowmap_cast_fs = "file:/shader/gl/shadowmap/csm/cascadedshadowmap_cast.fs";
-const char * __cascaded_shadowmap_recv_vs = "file:/shader/gl/shadowmap/csm/cascadedshadowmap_recv.vs";
+//const char * __cascaded_shadowmap_recv_vs = "file:/shader/gl/shadowmap/csm/cascadedshadowmap_recv.vs";
 const char * __cascaded_shadowmap_recv_fs = "file:/shader/gl/shadowmap/csm/cascadedshadowmap_recv.fs";
 
 
@@ -203,9 +203,10 @@ void shader_program_inter::init(l3_bool test_mode)
 		gs.shader_name_ = shader_program_inter::_l3eng_inter_cascaded_shadowmap_recv;
 
 		//vs
-		gs.lst_vs_.push_back(__cascaded_shadowmap_recv_vs);
+		gs.lst_vs_.push_back(__common_screen_quad_vs);
 
 		//fs
+		gs.lst_fs_.push_back(__common_fun_fs);
 		gs.lst_fs_.push_back(__cascaded_shadowmap_recv_fs);
 
 		this->lst_shader_.push_back(gs);

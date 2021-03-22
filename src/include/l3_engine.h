@@ -203,7 +203,9 @@ public:
 
 	default_listener(l3_engine * eng):eng_(eng),
 		y_degree_(0),x_degree_(0),z_degree_(0),
-		mouse_x_(0),mouse_y_(0)
+		mouse_x_(0),mouse_y_(0),
+		move_speed_(1.0f),
+		rotate_speed_(1.0f)
 	{}
 
 	virtual ~default_listener(){}
@@ -227,6 +229,9 @@ public:
 	/* @brief 记录上次一鼠标移动事件坐标 */
 	l3_int32 mouse_x_;
 	l3_int32 mouse_y_;
+
+	l3_f32 move_speed_;
+	l3_f32 rotate_speed_;
 };
 
 class LIN3D_EX_PORT l3_engine
@@ -317,7 +322,8 @@ public:
 	l3_int32 light_dir_virtual_cam(OBJ_ID obj, l3_f32 f); //平行光阴影参数, 摄影机前置距离
 	l3_int32 light_dir_virtual_dir(OBJ_ID obj, l3_f32 f); //平行光阴影参数, 光源摄影机后退距离
 	l3_int32 light_dir_virtual_width(OBJ_ID obj, l3_f32 f); //平行光阴影参数, 光源摄影机宽度缩放(正交投影的宽度)
-	l3_int32 light_dir_virtual_height(OBJ_ID obj, l3_f32 f); //平行光阴影参数, 光源摄影机高度缩放(正交投影的宽度)
+	l3_int32 light_set_sun(OBJ_ID obj);
+	//l3_int32 light_dir_virtual_height(OBJ_ID obj, l3_f32 f); //平行光阴影参数, 光源摄影机高度缩放(正交投影的宽度)
 
 	void light_enable_light_debug(OBJ_ID obj, l3_bool e);
 
@@ -559,6 +565,8 @@ public:
 	{ return this->enable_debug_; }
 
 	void robj_enable_debug(OBJ_ID obj, l3_bool b);
+
+	void debug_enble_csm_gen();
 
 public:
 

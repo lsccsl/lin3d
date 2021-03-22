@@ -681,9 +681,13 @@ void matrix4::trans_rotate_vect3(const vector3& v_in, vector3& v_out)const
 	l3_f32 in_y = v_in.y();
 	l3_f32 in_z = v_in.z();
 
-	v_out.x(in_x * this->mv_[0][0] + in_y * this->mv_[1][0] + in_z * this->mv_[2][0]);
-	v_out.y(in_x * this->mv_[0][1] + in_y * this->mv_[1][1] + in_z * this->mv_[2][1]);
-	v_out.z(in_x * this->mv_[0][2] + in_y * this->mv_[1][2] + in_z * this->mv_[2][2]);
+	l3_f32 out_x = in_x * this->mv_[0][0] + in_y * this->mv_[1][0] + in_z * this->mv_[2][0];
+	l3_f32 out_y = in_x * this->mv_[0][1] + in_y * this->mv_[1][1] + in_z * this->mv_[2][1];
+	l3_f32 out_z = in_x * this->mv_[0][2] + in_y * this->mv_[1][2] + in_z * this->mv_[2][2];
+
+	v_out.x(out_x);
+	v_out.y(out_y);
+	v_out.z(out_z);
 }
 
 

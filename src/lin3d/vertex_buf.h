@@ -39,6 +39,15 @@ class vertex_buf
 {
 public:
 
+	void clear()
+	{
+		clear_buf_pos();
+		clear_buf_clr();
+		clear_buf_nml();
+		clear_texcoord0_pos();
+		clear_texcoord1_pos();
+	}
+
 	/* @brief 顶点位置 */
 	const device_buf_base::ptr& buf_pos() const
 	{ return this->buf_pos_; }
@@ -62,7 +71,7 @@ public:
 	inline void clear_buf_pos()
 	{
 		if(!this->buf_pos_.is_null())
-			this->buf_pos_->resize_buf_sz(0);
+			this->buf_pos_->clear();
 	}
 
 
@@ -83,7 +92,7 @@ public:
 	inline void clear_buf_clr()
 	{
 		if(!this->buf_clr_.is_null())
-			this->buf_clr_->resize_buf_sz(0);
+			this->buf_clr_->clear();
 	}
 
 
@@ -108,7 +117,7 @@ public:
 	inline void clear_buf_nml()
 	{
 		if(!this->buf_nml_.is_null())
-			this->buf_nml_->resize_buf_sz(0);
+			this->buf_nml_->clear();
 	}
 
 
@@ -128,7 +137,7 @@ public:
 	inline void clear_texcoord0_pos()
 	{
 		if(!this->buf_texcoord0_.is_null())
-			this->buf_texcoord0_->resize_buf_sz(0);
+			this->buf_texcoord0_->clear();
 	}
 
 	/* @brief 添加纹理映射1 */
@@ -147,7 +156,7 @@ public:
 	inline void clear_texcoord1_pos()
 	{
 		if(!this->buf_texcoord1_.is_null())
-			this->buf_texcoord1_->resize_buf_sz(0);
+			this->buf_texcoord1_->clear();
 	}
 
 

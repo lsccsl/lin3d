@@ -28,8 +28,7 @@ light_cam::light_cam(light::ptr l, sence_mgr * sence):l_(l),
 	sence_(sence),
 	virtual_cam_(0.02f),
 	virtual_dir_(1.0f),
-	virtual_width_(0.2f),
-	virtual_height_(0.3f)
+	virtual_width_(0.2f)
 {
 	l3_engine * eng = this->sence_->eng();
 	render_target_mgr * rtt_mgr = eng->rtt_mgr();
@@ -44,6 +43,20 @@ void light_cam::recal_light_mtx()
 
 	switch(this->l_->light_type())
 	{
+	case light::E_LIGHT_DIR_OUTDOOR:
+		{
+			this->z_far_ = this->l_->light_max_len();
+			if (this->z_far_ <= this->z_near_)
+				this->z_far_ = this->z_near_ + 10.0f;
+
+			this->view_mtx_ = this->l_->get_mtx_view();
+			matrix4::gen_ortho_proj_matrix(
+				dev->width(), dev->height(),
+				this->z_near_, this->z_far_,
+				this->proj_mtx_);
+		}
+		break;
+
 	case light::E_LIGHT_DIR:
 		{
 			this->z_far_ = this->l_->light_max_len();
@@ -52,6 +65,10 @@ void light_cam::recal_light_mtx()
 
 #if 0
 			this->view_mtx_ = this->l_->get_mtx_view();
+			matrix4::gen_ortho_proj_matrix(
+				dev->width(), dev->height(),
+				this->z_near_, this->z_far_,
+				this->proj_mtx_);
 #else
 			//l3_f32 virtual_cam   = 0.02f;
 			//l3_f32 virtual_dir   = 0.5f;
@@ -74,12 +91,11 @@ void light_cam::recal_light_mtx()
 				virtual_tran_pos.x(), virtual_tran_pos.y(), virtual_tran_pos.z());
 
 			//this->l_->set_pos(virtual_pos.x(), virtual_pos.y(), virtual_pos.z());
-#endif
-
 			matrix4::gen_ortho_proj_matrix(
 				dev->width() * this->virtual_width_, dev->height() * (this->virtual_width_ * cam->aspect()),
 				this->z_near_, this->z_far_,
 				this->proj_mtx_);
+#endif
 		}
 		break;
 
@@ -90,7 +106,7 @@ void light_cam::recal_light_mtx()
 			this->z_far_ = this->l_->light_max_len();
 			if(this->z_far_ <= this->z_near_)
 				this->z_far_ = this->z_near_ + 10.0f;
-//this->z_far_ = 200.0f;
+			//this->z_far_ = 200.0f;
 			this->view_mtx_ = this->l_->get_mtx_view();
 			matrix4::gen_pers_proj_matrix(fov, 1.0f, this->z_near_, this->z_far_, this->proj_mtx_);
 		}

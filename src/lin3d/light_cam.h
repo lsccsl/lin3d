@@ -50,8 +50,6 @@ public:
 	{ this->virtual_dir_ = f; }
 	inline void virtual_width(l3_f32 f)
 	{ this->virtual_width_ = f; }
-	inline void virtual_height(l3_f32 f)
-	{ this->virtual_height_ = f; }
 
 private:
 
@@ -69,7 +67,6 @@ private:
 	l3_f32 virtual_cam_;
 	l3_f32 virtual_dir_;
 	l3_f32 virtual_width_;
-	l3_f32 virtual_height_;
 
 
 	light::ptr l_;

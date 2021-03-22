@@ -49,7 +49,7 @@ public:
 
 	light::ptr create_light();
 
-	light::ptr create_light_dir(const l3_f32 x_degree, const l3_f32 y_degree, const l3_f32 z_degree,
+	OBJ_ID create_light_dir(const l3_f32 x_degree, const l3_f32 y_degree, const l3_f32 z_degree,
 		const color& clr_diff = color());
 
 	l3_int32 get_light(OBJ_ID obj_id, light::ptr& l);

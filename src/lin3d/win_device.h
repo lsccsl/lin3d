@@ -107,6 +107,9 @@ public:
 	void blend_mode(l3_blend_mode_t blend_mode){
 		this->global_blend_mode_ = blend_mode;
 	}
+	l3_blend_mode_t blend_mode()const {
+		return this->global_blend_mode_;
+	}
 
 
 	void enable_poly_offset_fill(l3_f32 factor, l3_f32 unit);

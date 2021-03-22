@@ -1,7 +1,7 @@
 /**
-* @file mesh.h
+* @file vector3.h
 *
-* @author lin shao chuan (email:lsccsl@tom.com)
+* @author lin shao chuan (email:czhama@163.com)
 *
 * @brief if it works, it was written by lin shao chuan, if not, i don't know who wrote it
 *
@@ -14,49 +14,49 @@
 * purpose.  It is provided "as is" without express or implied warranty.
 * see the GNU General Public License  for more detail.
 */
-#ifndef __L3ENG_MESH_H__
-#define __L3ENG_MESH_H__
+#ifndef __L3ENG_VECTOR2_H__
+#define __L3ENG_VECTOR2_H__
 
-#include <list>
-#include "vertex_buf.h"
-#include "index_buf.h"
-#include "base_obj.h"
+#include "l3_type.h"
+#include "l3_math.h"
+#include <stdlib.h>
+#include "l3_dllexp.h"
 
-namespace l3eng
-{
+namespace l3eng {
 
-class mesh : public base_obj
+class LIN3D_EX_PORT vector2
 {
 public:
 
-    typedef ref_ptr_thread<mesh> ptr;
-	OBJ_TYPE_DEFINE(base_obj, OBJ_MESH)
-
-public:
-
-	mesh(){}
-
-	virtual ~mesh(){}
-
-	void clear()
-	{
-		vb_.clear();
-		ib_.clear();
+	inline vector2(l3_f32 x, l3_f32 y){
+		this->v2_.x_ = x;
+		this->v2_.y_ = y;
+	}
+	inline vector2() {
+		this->v2_.x_ = 0;
+		this->v2_.y_ = 0;
 	}
 
-	vertex_buf& vb()const{ return this->vb_; }
-	index_buf& ib()const{ return this->ib_; }
+	const l3_f32* get_vector3_data()const {
+		return this->v_array_;
+	}
+	l3_uint32 get_vector3_data_sz()const {
+		return sizeof(v_array_);
+	}
 
-	void cal_normal();
-
-	void deep_copy(const mesh& msh);
 
 private:
 
-	/* @brief ¶¥µã»º´æ */
-	mutable vertex_buf vb_;
-	/* @brief ¶¥Õ¼Ë÷Òý»º´æ */
-	mutable index_buf ib_;
+	union
+	{
+		struct vec2
+		{
+			l3_f32 x_;
+			l3_f32 y_;
+		};
+		vec2 v2_;
+		l3_f32 v_array_[2];
+	};
 };
 
 }

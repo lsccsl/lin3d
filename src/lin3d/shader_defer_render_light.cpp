@@ -153,6 +153,7 @@ void shader_defer_render_light::set_light(const light_mgr::light_info::ptr& li, 
 	switch(l.light_type())
 	{
 	case light::E_LIGHT_DIR:
+	case light::E_LIGHT_DIR_OUTDOOR:
 		{
 			vector3 light_dir;
 			cam->view_mtx().trans_vect3(l.dir(), light_dir, 0);

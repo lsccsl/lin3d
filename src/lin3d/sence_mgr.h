@@ -114,6 +114,15 @@ public:
 		return this->sence_render_.get();
 	}
 
+	sence_render_test* sence_test_render()
+	{
+#ifdef HAS_TEST_MODE
+		return this->sence_test_render_.get();
+#else
+		return NULL;
+#endif
+	}
+
 public:
 
 	inline void enable_defer_render(l3_bool e)

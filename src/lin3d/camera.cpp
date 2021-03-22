@@ -334,6 +334,27 @@ robj_geometry& camera::get_fg()
 	return this->fm_.fg_;
 }
 
+void camera::get_fg_point(vector3& near_top_left,
+	vector3& near_top_right,
+	vector3& near_bottom_left,
+	vector3& near_bottom_right,
+	vector3& far_top_left,
+	vector3& far_top_right,
+	vector3& far_bottom_left,
+	vector3& far_bottom_right)
+{
+	this->get_fg();
+
+	near_top_left = this->fm_.near_top_left;
+	near_top_right = this->fm_.near_top_right;
+	near_bottom_left = this->fm_.near_bottom_left;
+	near_bottom_right = this->fm_.near_bottom_right;
+	far_top_left = this->fm_.far_top_left;
+	far_top_right = this->fm_.far_top_right;
+	far_bottom_left = this->fm_.far_bottom_left;
+	far_bottom_right = this->fm_.far_bottom_right;
+}
+
 void camera::get_cam_x(vector3& v)const
 {
 	v.x(this->view_mtx_[0][0]);

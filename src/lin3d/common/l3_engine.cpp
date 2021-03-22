@@ -57,19 +57,19 @@ l3_int32 default_listener::keyboard_event(const keyboard_data_t& e)
 	{
 	case L3_KEY_DOWN:
 		{
-			cam->move_toward(-0.5f);
+			cam->move_toward(-this->move_speed_);
 			b_set_title = L3_TRUE;
 		}
 		break;
 	case L3_KEY_UP:
 		{
-			cam->move_toward(0.5f);
+			cam->move_toward(this->move_speed_);
 			b_set_title = L3_TRUE;
 		}
 		break;
 	case L3_KEY_RIGHT:
 		{
-			cam->move_sideward(0.5f);
+			cam->move_sideward(this->move_speed_);
 			b_set_title = L3_TRUE;
 			//this->y_degree_ -= 1;
 			//cam->set_rotate(this->x_degree_, this->y_degree_);
@@ -77,7 +77,7 @@ l3_int32 default_listener::keyboard_event(const keyboard_data_t& e)
 		break;
 	case L3_KEY_LEFT:
 		{
-			cam->move_sideward(-0.5f);
+			cam->move_sideward(-this->move_speed_);
 			b_set_title = L3_TRUE;
 			//this->y_degree_ += 1;
 			//cam->set_rotate(this->x_degree_, this->y_degree_);
@@ -90,7 +90,7 @@ l3_int32 default_listener::keyboard_event(const keyboard_data_t& e)
 			this->x_degree_ = cam->x_degree();
 			this->y_degree_ = cam->y_degree();
 
-			this->x_degree_ += 1;
+			this->x_degree_ += this->rotate_speed_;
 			cam->set_rotate(this->x_degree_, this->y_degree_);
 			b_set_title = L3_TRUE;
 		}
@@ -100,7 +100,7 @@ l3_int32 default_listener::keyboard_event(const keyboard_data_t& e)
 			this->x_degree_ = cam->x_degree();
 			this->y_degree_ = cam->y_degree();
 
-			this->x_degree_ -= 1;
+			this->x_degree_ -= this->rotate_speed_;
 			cam->set_rotate(this->x_degree_, this->y_degree_);
 			b_set_title = L3_TRUE;
 		}
@@ -110,7 +110,7 @@ l3_int32 default_listener::keyboard_event(const keyboard_data_t& e)
 			this->x_degree_ = cam->x_degree();
 			this->y_degree_ = cam->y_degree();
 
-			this->y_degree_ += 1;
+			this->y_degree_ += this->rotate_speed_;
 			cam->set_rotate(this->x_degree_, this->y_degree_);
 			b_set_title = L3_TRUE;
 		}
@@ -120,14 +120,14 @@ l3_int32 default_listener::keyboard_event(const keyboard_data_t& e)
 			this->x_degree_ = cam->x_degree();
 			this->y_degree_ = cam->y_degree();
 
-			this->y_degree_ -= 1;
+			this->y_degree_ -= this->rotate_speed_;
 			cam->set_rotate(this->x_degree_, this->y_degree_);
 			b_set_title = L3_TRUE;
 		}
 		break;
 	case L3_KEY_Q:
 		{
-			cam->move_vertical(0.5f);
+			cam->move_vertical(this->move_speed_);
 			//l3_f32 fovy = cam->fovy();
 			//l3_f32 aspect = cam->aspect();
 			//l3_f32 z_near = cam->z_near();
@@ -143,7 +143,7 @@ l3_int32 default_listener::keyboard_event(const keyboard_data_t& e)
 		break;
 	case L3_KEY_E:
 		{
-			cam->move_vertical(-0.5f);
+			cam->move_vertical(-this->move_speed_);
 			//l3_f32 fovy = cam->fovy();
 			//l3_f32 aspect = cam->aspect();
 			//l3_f32 z_near = cam->z_near();
@@ -667,16 +667,11 @@ l3_int32 l3_engine::light_dir_virtual_width(OBJ_ID obj, l3_f32 f)
 	return 0;
 }
 
-l3_int32 l3_engine::light_dir_virtual_height(OBJ_ID obj, l3_f32 f)
+l3_int32 l3_engine::light_set_sun(OBJ_ID obj)
 {
-	light_mgr::light_info::ptr li;
-	this->sence_->get_light_mgr()->get_light_info(obj, li);
-	if(li.is_null())
-		return -1;
-
-	li->l_cam_->virtual_height(f);
-	li->l_cam_->recal_light_mtx();
-
+#ifdef HAS_TEST_MODE
+	this->sence_->sence_test_render()->set_sun_light(obj);
+#endif
 	return 0;
 }
 
@@ -1624,6 +1619,12 @@ void l3_engine::set_normal_mode()
 	this->sence_->sence_frender()->normal_mode();
 }
 
+void l3_engine::debug_enble_csm_gen()
+{
+#ifdef HAS_TEST_MODE
+	this->sence_->sence_test_render()->debug_enble_csm_gen();
+#endif
+}
 
 }
 

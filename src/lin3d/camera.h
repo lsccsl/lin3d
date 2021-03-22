@@ -210,6 +210,14 @@ public:
 	enum_cam_visible is_visible(const aabbox& box)const;
 
 	robj_geometry& get_fg();
+	void get_fg_point(vector3& near_top_left,
+		vector3& near_top_right,
+		vector3& near_bottom_left,
+		vector3& near_bottom_right,
+		vector3& far_top_left,
+		vector3& far_top_right,
+		vector3& far_bottom_left,
+		vector3& far_bottom_right);
 
 	inline const l3_int32 active()const{ return this->active_; }
 	inline void active(l3_int32 a){ this->active_ = a; }

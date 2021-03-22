@@ -36,6 +36,7 @@ public:
 		E_LIGHT_DIR = 0, //平行光
 		E_LIGHT_SPOT = 1, //聚光灯
 		E_LIGHT_POINT = 2, //点光源
+		E_LIGHT_DIR_OUTDOOR = 3
 	};
 
 public:

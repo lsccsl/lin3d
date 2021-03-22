@@ -64,7 +64,7 @@ public:
 
 	inline void clear(){
 		if(!this->idx_buf_.is_null())
-			this->idx_buf_->resize_buf_sz(0);
+			this->idx_buf_->clear();
 		this->idx_count_ = 0;
 	}
 

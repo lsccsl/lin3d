@@ -39,6 +39,11 @@ public:
 	render_obj(sence_mgr * sence);
 	virtual ~render_obj();
 
+	void clear_mesh()
+	{
+		this->msh_.clear();
+	}
+
 	virtual void pre_render()override;
 	virtual void render()override;
 

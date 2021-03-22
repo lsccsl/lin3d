@@ -37,6 +37,8 @@ public:
 	device_buf_base(){}
 
 	virtual ~device_buf_base(){}
+
+	virtual void clear() = 0;
 	/* @brief 获取顶点数据 */
 	virtual void * get_buf() = 0;
 	/* @brief 缓冲区已使用大小 */
@@ -45,6 +47,8 @@ public:
 	virtual void resize_buf_sz(l3_uint32 sz) = 0;
 	/* @brief 缓冲区最大容量 */
 	virtual l3_int32 get_buf_cap() = 0;
+	/* @brief append buf */
+	virtual void append_buf(void * p, l3_uint32 sz) = 0;
 
 	/* @brief 由派生类实现 */
 	virtual unsigned long get_buf_type() = 0;
@@ -74,10 +78,12 @@ public:
 
 	virtual ~device_common_buf();
 
+	virtual void clear();
 	virtual void * get_buf();
 	virtual l3_int32 get_buf_sz();
 	virtual void resize_buf_sz(l3_uint32 sz);
 	virtual l3_int32 get_buf_cap();
+	virtual void append_buf(void* p, l3_uint32 sz);
 
 	virtual unsigned long get_buf_type(){ return 1; }
 	virtual const char * get_buf_type_name(){ return "device_common_buf"; }

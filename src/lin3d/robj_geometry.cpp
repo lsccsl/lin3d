@@ -26,7 +26,8 @@ robj_geometry::~robj_geometry()
 
 void robj_geometry::create_cube(l3_f32 d1, l3_f32 d2, l3_f32 d3,
 	l3_bool user_clr,
-	l3_uint8 clr_r, l3_uint8 clr_g, l3_uint8 clr_b)
+	l3_uint8 clr_r, l3_uint8 clr_g, l3_uint8 clr_b,
+	l3_uint8 alpha)
 {
 	vertex_buf& vb = this->msh_.vb();
 	index_buf& ib = this->msh_.ib();
@@ -44,7 +45,7 @@ void robj_geometry::create_cube(l3_f32 d1, l3_f32 d2, l3_f32 d3,
 		clr.r_ = clr_r;
 		clr.g_ = clr_g;
 		clr.b_ = clr_b;
-		clr.a_ = 255;
+		clr.a_ = alpha;
 
 		clr1 = clr2 = clr3 = clr;
 	}
@@ -237,6 +238,25 @@ void robj_geometry::create_cube(l3_f32 d1, l3_f32 d2, l3_f32 d3,
 	}
 }
 
+void robj_geometry::create_cube_by_aabb(const aabbox& bbox,
+	l3_bool user_clr,
+	l3_uint8 clr_r, l3_uint8 clr_g, l3_uint8 clr_b,
+	l3_uint8 alpha)
+{
+	l3_f32 dx = bbox.get_max().x() - bbox.get_min().x();
+	l3_f32 dy = bbox.get_max().y() - bbox.get_min().y();
+	l3_f32 dz = bbox.get_max().z() - bbox.get_min().z();
+	this->create_cube(dx, dy, dz,
+		user_clr,
+		clr_r, clr_g, clr_b,
+		alpha);
+
+	vector3 vc;
+	bbox.get_center(vc);
+
+	this->move_to_xyz(vc.x(), vc.y(), vc.z());
+}
+
 void robj_geometry::create_square(l3_f32 width, l3_f32 height,
 	l3_bool user_clr, l3_uint8 clr_r, l3_uint8 clr_g, l3_uint8 clr_b,
 	l3_uint8 alpha)
@@ -348,8 +368,8 @@ void robj_geometry::add_triangle(const vector3& p1,
 	//this->bi_.local_box_.merge(p3);
 }
 
-void robj_geometry::clear_mesh()
-{
-}
+//void robj_geometry::clear_mesh()
+//{
+//}
 
 }

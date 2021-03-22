@@ -120,21 +120,21 @@ void shader_shadowmap_recv::init()
 
 void shader_shadowmap_recv::pre_frame(sence_mgr * sence)
 {
-	l3_int32 err_count = win_device::print_error(__FILE__, __LINE__);
-	if(err_count != 0)
-	{
-		int a = 0;
-		int b = a;
-	}
+	//l3_int32 err_count = win_device::print_error(__FILE__, __LINE__);
+	//if(err_count != 0)
+	//{
+	//	int a = 0;
+	//	int b = a;
+	//}
 
 	this->shdr_prg_->active();
 
-	l3_int32 err_count1 = win_device::print_error(__FILE__, __LINE__);
-	if(err_count1 != 0)
-	{
-		int a = 0;
-		int b = a;
-	}
+	//l3_int32 err_count1 = win_device::print_error(__FILE__, __LINE__);
+	//if(err_count1 != 0)
+	//{
+	//	int a = 0;
+	//	int b = a;
+	//}
 
 	win_device * dev = this->eng_->dev();
 

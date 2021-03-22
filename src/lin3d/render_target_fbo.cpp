@@ -75,6 +75,8 @@ l3_int32 render_target_fbo::_enable_one(l3_bool need_clear)
 
 l3_int32 render_target_fbo::enable(l3_bool need_clear)
 {
+	win_device::print_error(__FILE__, __LINE__);
+
 	l3_int32 ret = -1;
 	if(this->v_tex_.size() > 1)
 		ret = _enable_mult(need_clear);

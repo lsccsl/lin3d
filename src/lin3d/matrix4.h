@@ -56,6 +56,10 @@ public:
 
 	~matrix4(){}
 
+	l3_uint32 get_mtx_memsz() {
+		return sizeof(this->m_);
+	}
+
 	/* @brief 生成缩放矩阵 */
 	static void gen_scale_matrix(matrix4& m, l3_f32 x_scale, l3_f32 y_scale, l3_f32 z_scale);
 	/* @brief 从当前矩阵中获取x y z的缩放比例 */

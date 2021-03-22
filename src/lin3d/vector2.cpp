@@ -1,5 +1,5 @@
 /**
-* @file mesh.h
+* @file vector2.cpp
 *
 * @author lin shao chuan (email:lsccsl@tom.com)
 *
@@ -14,51 +14,4 @@
 * purpose.  It is provided "as is" without express or implied warranty.
 * see the GNU General Public License  for more detail.
 */
-#ifndef __L3ENG_MESH_H__
-#define __L3ENG_MESH_H__
-
-#include <list>
-#include "vertex_buf.h"
-#include "index_buf.h"
-#include "base_obj.h"
-
-namespace l3eng
-{
-
-class mesh : public base_obj
-{
-public:
-
-    typedef ref_ptr_thread<mesh> ptr;
-	OBJ_TYPE_DEFINE(base_obj, OBJ_MESH)
-
-public:
-
-	mesh(){}
-
-	virtual ~mesh(){}
-
-	void clear()
-	{
-		vb_.clear();
-		ib_.clear();
-	}
-
-	vertex_buf& vb()const{ return this->vb_; }
-	index_buf& ib()const{ return this->ib_; }
-
-	void cal_normal();
-
-	void deep_copy(const mesh& msh);
-
-private:
-
-	/* @brief ¶¥µã»º´æ */
-	mutable vertex_buf vb_;
-	/* @brief ¶¥Õ¼Ë÷Òý»º´æ */
-	mutable index_buf ib_;
-};
-
-}
-
-#endif
+#include "vector2.h"

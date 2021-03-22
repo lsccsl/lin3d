@@ -20,6 +20,7 @@
 #include "render_obj.h"
 #include "l3_vector3.h"
 #include "l3_type.h"
+#include "aabb.h"
 
 namespace l3eng{
 
@@ -39,8 +40,14 @@ public:
 
 public:
 
-	void create_cube(l3_f32 d1, l3_f32 d2, l3_f32 d3,
-		l3_bool user_clr = L3_FALSE, l3_uint8 clr_r = 255, l3_uint8 clr_g = 255, l3_uint8 clr_b = 255);
+	void create_cube(l3_f32 dx, l3_f32 dy, l3_f32 dz,
+		l3_bool user_clr = L3_FALSE,
+		l3_uint8 clr_r = 255, l3_uint8 clr_g = 255, l3_uint8 clr_b = 255,
+		l3_uint8 alpha = 255);
+	void create_cube_by_aabb(const aabbox& bbox,
+		l3_bool user_clr = L3_FALSE,
+		l3_uint8 clr_r = 255, l3_uint8 clr_g = 255, l3_uint8 clr_b = 255,
+		l3_uint8 alpha = 255);
 
 	void create_square(l3_f32 width, l3_f32 height,
 		l3_bool user_clr = 0, l3_uint8 clr_r = 255, l3_uint8 clr_g = 255, l3_uint8 clr_b = 255,
@@ -51,7 +58,7 @@ public:
 		const vector3& p2,
 		const vector3& p3);
 
-	void clear_mesh();
+	//void clear_mesh();
 };
 
 }

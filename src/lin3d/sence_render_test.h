@@ -36,6 +36,8 @@
 #include "shader_reflect_forward.h"
 #include "shader_vol_radial_blur.h"
 #include "shader_show_tex.h"
+#include "shader_cascaded_shadowmap_cast.h";
+#include "shader_cascaded_shadowmap_recv.h";
 
 /*
 gbuffer 法线/漫反射/深度  深度(透视) width x height --- done
@@ -90,7 +92,9 @@ public:
 		this->enable_ssao_  = e;
 	}
 
-	void set_sun_light(const l3_f32 x_degree, const l3_f32 y_degree, const l3_f32 z_degree);
+	void set_sun_light(OBJ_ID light_obj);
+
+	void debug_enble_csm_gen();
 
 private:
 
@@ -179,6 +183,10 @@ private:
 	/* @brief volume light radial blur */
 	shader_vol_radial_blur::ptr shdr_vol_rb_;
 
+	/* @brief csm shader */
+	shader_cascaded_shadowmap_cast::ptr shdr_csm_cast_;
+	shader_cascaded_shadowmap_recv::ptr shdr_csm_recv_;
+
 
 	/* @brief 窗口大小的render target */
 	render_target_base::ptr rtt_dev_size_;
@@ -238,18 +246,6 @@ private:
 	//texture_base::ptr ref_tex_obj_far_;
 	///* @brief 近景处理结果纹理 */
 	//texture_base::ptr ref_tex_obj_;
-
-	/* @brief out door main light(sun) */
-	struct outdoor_light
-	{
-		outdoor_light() :cascaded_count_(4)
-		{}
-
-		light::ptr sun_light_;
-		/* @brief 阴影纹理级联数量 */
-		l3_int32 cascaded_count_;
-	};
-	outdoor_light outdoor_light_;
 
 	sence_mgr * sence_;
 	l3_bool enable_atmospheric_;

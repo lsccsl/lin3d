@@ -122,15 +122,15 @@ private:
 #if 1
 	shader_screen_quad screen_quad_;
 #else
-	l3_int32 attr_screen_quad_pos_loc_; //attribute vec2
-	l3_int32 attr_screen_quad_texcoord_loc_; //attribute vec2
+	//l3_int32 attr_screen_quad_pos_loc_; //attribute vec2
+	//l3_int32 attr_screen_quad_texcoord_loc_; //attribute vec2
 
-	/* @brief screen quad */
-	device_buf_base::ptr pos_buf_;
-	device_buf_base::ptr texcoord_buf_;
+	///* @brief screen quad */
+	//device_buf_base::ptr pos_buf_;
+	//device_buf_base::ptr texcoord_buf_;
 
-	/* @brief screen quad */
-	robj_geometry * geo_screen_quad_;
+	///* @brief screen quad */
+	//robj_geometry * geo_screen_quad_;
 #endif
 };
 
