@@ -8,6 +8,8 @@ OBJ_ID old_tr_id = -1;
 
 OBJ_ID __light_id;
 
+int __idx = 0;
+
 class test_listerner : public default_listener
 {
 public:
@@ -28,6 +30,13 @@ public:
 			light_x -= 1.0f;
 			eng_->light_set_pos(__light_id, vector3(light_x, 0.0f, 10.0f));
 			return true;
+			break;
+		case L3_KEY_SHIFT:
+			if(__idx % 2)
+				this->eng_->camera_set_ortho(200, 150, 0.1f, 2000.f);
+			else
+				this->eng_->camera_set_pers(50.0f, 0.1f, 2000.0f);
+			__idx++;
 			break;
 		}
 
@@ -121,31 +130,31 @@ int main()
 	e.enable_debug(0);
 	e.enable_defer_render(0);
 
-	{
-		l3eng::OBJ_ID shader_id = e.shader_get("_l3eng_inter_defer_render_final");
-		e.shader_set_param_f32(shader_id, EN_SHADER_PARAM_FINAL_DIFF_SCALE, 0.01f);
-	}
+	//{
+	//	l3eng::OBJ_ID shader_id = e.shader_get("_l3eng_inter_defer_render_final");
+	//	e.shader_set_param_f32(shader_id, EN_SHADER_PARAM_FINAL_DIFF_SCALE, 0.01f);
+	//}
 
 	//add_sky_dome(e);
-	if( 0 )
-	{
-		__light_id = e.light_create();
-		//e.light_type(__light_id, 0);
-		e.light_enable(__light_id, 1);
-		e.light_clr_diffuse(__light_id, color(0.0f, 1.0f, 0.0f));
-		e.light_spot_exponent(__light_id, 2.0f);
-		e.light_spot_cutoff(__light_id, 60.0f);
+	//if( 1 )
+	//{
+	//	__light_id = e.light_create();
+	//	//e.light_type(__light_id, 0);
+	//	e.light_enable(__light_id, 1);
+	//	e.light_clr_diffuse(__light_id, color(0.0f, 1.0f, 0.0f));
+	//	e.light_spot_exponent(__light_id, 2.0f);
+	//	e.light_spot_cutoff(__light_id, 60.0f);
 
-		//e.light_set_rotate(__light_id, 0, -90, 0);
-		e.light_set_pos(__light_id, vector3(light_x, 0.0f, 10.0f));
-		e.light_enable_vol(__light_id, 0);
-		e.light_enable_shadow(__light_id, 0);
-	}
+	//	//e.light_set_rotate(__light_id, 0, -90, 0);
+	//	e.light_set_pos(__light_id, vector3(light_x, 0.0f, 10.0f));
+	//	e.light_enable_vol(__light_id, 0);
+	//	e.light_enable_shadow(__light_id, 0);
+	//}
 
 	if(1)
 	{
-		OBJ_ID cube = e.robj_geometry_create_cube(1000, 10, 1000);
-		e.robj_move_to_xyz(cube, -10, -35, -19);
+		OBJ_ID cube = e.robj_geometry_create_cube(20, 10, 20);
+		e.robj_move_to_xyz(cube, -10, -10, -19);
 		//e.robj_set_sys_shader(cube, "_l3eng_inter_test_program");
 		OBJ_ID tex_id = e.tex_load("../resource/rockwall.jpg");
 		e.robj_set_tex(cube, tex_id);
@@ -155,7 +164,7 @@ int main()
 	if(1)
 	{
 		OBJ_ID sphere = e.robj_sphere_create(10, 200);
-		e.robj_move_to_xyz(sphere, 0, 0, -19);
+		e.robj_move_to_xyz(sphere, 0, 0, 0);
 		e.robj_set_sys_shader(sphere, "_l3eng_inter_test_program");
 		OBJ_ID tex_id = e.tex_load("../resource/rockwall.jpg");
 		e.robj_set_tex(sphere, tex_id);
@@ -163,7 +172,7 @@ int main()
 	}
 
 	e.camera_set_pers(50.0f, 0.1f, 2000.0f);
-	//e.camera_move_toward(-10.0f);
+	//e.camera_set_ortho(200, 150, 0.1f, 2000.f);
 	e.camera_set(vector3(0,0,0), vector3(0,0,100));
 
 	e.run();

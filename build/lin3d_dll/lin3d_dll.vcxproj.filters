@@ -320,6 +320,9 @@
     <ClCompile Include="..\..\src\lin3d\shader_dissolution.cpp">
       <Filter>shader\disolution</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\lin3d\vector2.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\include\l3_color.h">
@@ -583,6 +586,12 @@
     <ClInclude Include="..\..\src\lin3d\shader_dissolution.h">
       <Filter>shader\disolution</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\vector2.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lin3d\shader_csm_common.h">
+      <Filter>shader\shadowmap\csm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\shader\gl\atmospheric\atmospheric_ground.fs">
@@ -652,9 +661,6 @@
       <Filter>shader\shadowmap\csm</Filter>
     </None>
     <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.fs">
-      <Filter>shader\shadowmap\csm</Filter>
-    </None>
-    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.vs">
       <Filter>shader\shadowmap\csm</Filter>
     </None>
     <None Include="..\..\shader\gl\show_tex\show_tex.fs">

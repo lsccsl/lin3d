@@ -230,18 +230,18 @@ public:
 				bset = true;
 			}
 			break;
-		case L3_KEY_5:
-			{
-				__light_virtual_height -= 0.1f;
-				_eng->light_dir_virtual_height(__light_id, __light_virtual_height);
-			}
-			break;
-		case L3_KEY_6:
-			{
-				__light_virtual_height += 0.1f;
-				_eng->light_dir_virtual_height(__light_id, __light_virtual_height);
-			}
-			break;
+		//case L3_KEY_5:
+		//	{
+		//		__light_virtual_height -= 0.1f;
+		//		_eng->light_dir_virtual_height(__light_id, __light_virtual_height);
+		//	}
+		//	break;
+		//case L3_KEY_6:
+		//	{
+		//		__light_virtual_height += 0.1f;
+		//		_eng->light_dir_virtual_height(__light_id, __light_virtual_height);
+		//	}
+		//	break;
 		case L3_KEY_7:
 			{
 				__g_sky -= 0.01f;

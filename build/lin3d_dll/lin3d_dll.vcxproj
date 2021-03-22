@@ -250,6 +250,7 @@
     <ClCompile Include="..\..\src\lin3d\texture_mgr.cpp" />
     <ClCompile Include="..\..\src\lin3d\texture_win32gl.cpp" />
     <ClCompile Include="..\..\src\lin3d\triangle.cpp" />
+    <ClCompile Include="..\..\src\lin3d\vector2.cpp" />
     <ClCompile Include="..\..\src\lin3d\vertex_buf.cpp" />
     <ClCompile Include="..\..\src\lin3d\win32gl_glee.cpp" />
     <ClCompile Include="..\..\src\lin3d\win_device.cpp" />
@@ -311,6 +312,7 @@
     <ClInclude Include="..\..\src\lin3d\shader_atmospheric_ground.h" />
     <ClInclude Include="..\..\src\lin3d\shader_cascaded_shadowmap_cast.h" />
     <ClInclude Include="..\..\src\lin3d\shader_cascaded_shadowmap_recv.h" />
+    <ClInclude Include="..\..\src\lin3d\shader_csm_common.h" />
     <ClInclude Include="..\..\src\lin3d\shader_defer_render_atmospheric.h" />
     <ClInclude Include="..\..\src\lin3d\shader_defer_render_final.h" />
     <ClInclude Include="..\..\src\lin3d\shader_defer_render_gbuffer.h" />
@@ -339,6 +341,7 @@
     <ClInclude Include="..\..\src\lin3d\texture_mgr.h" />
     <ClInclude Include="..\..\src\lin3d\texture_win32gl.h" />
     <ClInclude Include="..\..\src\lin3d\triangle.h" />
+    <ClInclude Include="..\..\src\lin3d\vector2.h" />
     <ClInclude Include="..\..\src\lin3d\vertex_buf.h" />
     <ClInclude Include="..\..\src\lin3d\win32gl_glee.h" />
     <ClInclude Include="..\..\src\lin3d\win_device.h" />
@@ -370,7 +373,6 @@
     <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_cast.fs" />
     <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_cast.vs" />
     <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.fs" />
-    <None Include="..\..\shader\gl\shadowmap\csm\cascadedshadowmap_recv.vs" />
     <None Include="..\..\shader\gl\shadowmap\shadowmap_cast.fs" />
     <None Include="..\..\shader\gl\shadowmap\shadowmap_cast.vs" />
     <None Include="..\..\shader\gl\shadowmap\shadowmap_recv.fs" />
