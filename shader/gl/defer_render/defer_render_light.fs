@@ -120,6 +120,7 @@ void defer_render_lighting_fs()
 	switch(uni_light_type)
 	{
 	case E_LIGHT_DIR:
+	case E_LIGHT_DIR_OUTDOOR:
 		color = defer_render_light_dir(view_pos, view_nml, tex_nml.a);
 		break;
 
