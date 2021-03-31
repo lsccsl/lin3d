@@ -1251,9 +1251,13 @@ void sence_render_test::_render_sunlight_cascaded_shadowmap_cast()
 	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(0),
 	//	0.0f, 1.f, 0.5f, 0.5f);
 	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(1),
-	//	1.0f, 1.f, 0.5f, 0.5f);
-	this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(0),
-		1.5f, 1.5f, 0.5f, 0.5f);
+	//	0.5f, 1.f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(2),
+	//	0.0f, 1.5f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(3),
+	//	0.5f, 1.5f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(0),
+	//	1.5f, 1.5f, 0.5f, 0.5f);
 #endif
 }
 
@@ -1279,8 +1283,9 @@ void sence_render_test::_render_sunlight_cascaded_shadowmap_recv()
 	this->shdr_csm_recv_->post_frame(this->sence_);
 
 	dev->set_active_shdr_null();
-	this->sence_->render_show_tex(this->shdr_csm_recv_->tex_light_shadow(),
-		0.0f, 0.f, 2.0f, 2.0f);
+	this->sence_->render_show_tex(this->shdr_csm_recv_->tex_light_shadow()
+		//,1.f, 0.f, .5f, .5f
+	);
 }
 
 void sence_render_test::_debug()

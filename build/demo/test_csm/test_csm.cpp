@@ -109,7 +109,7 @@ int main()
 	e.init_eng(&tl, 1);
 	e.enable_atmospheric(0);
 	e.enable_hdr(0);
-	e.enable_debug(1);
+	e.enable_debug(0);
 	e.enable_defer_render(1);
 	e.enable_ssao(0);
 
@@ -139,9 +139,28 @@ int main()
 
 	if (1)
 	{
-		OBJ_ID cube = e.robj_geometry_create_cube(1000, 10, 1000);
+		OBJ_ID cube = e.robj_geometry_create_cube(2000, 10, 2000);
 		e.robj_move_to_xyz(cube, -10, -50, -19);
 		//e.robj_set_sys_shader(cube, "_l3eng_inter_test_program");
+		OBJ_ID tex_id = e.tex_load("../resource/rockwall.jpg");
+		e.robj_set_tex(cube, tex_id);
+		e.shader_defer_render(cube, 1);
+	}
+
+	//if (1)
+	//{
+	//	OBJ_ID cube = e.robj_geometry_create_cube(1000, 1000, 10);
+	//	e.robj_move_to_xyz(cube, 0, 0, -200);
+	//	//e.robj_set_sys_shader(cube, "_l3eng_inter_test_program");
+	//	OBJ_ID tex_id = e.tex_load("../resource/rockwall.jpg");
+	//	e.robj_set_tex(cube, tex_id);
+	//	e.shader_defer_render(cube, 0);
+	//}
+
+	{
+		OBJ_ID cube = e.robj_geometry_create_cube(10, 10, 2000);
+		e.robj_move_to_xyz(cube, -60, -10, 0);
+		e.robj_set_sys_shader(cube, "_l3eng_inter_test_program");
 		OBJ_ID tex_id = e.tex_load("../resource/rockwall.jpg");
 		e.robj_set_tex(cube, tex_id);
 		e.shader_defer_render(cube, 1);

@@ -37,11 +37,15 @@ public:
 		this->v2_.y_ = 0;
 	}
 
-	const l3_f32* get_vector3_data()const {
+	const l3_f32* get_vector2_data()const {
 		return this->v_array_;
 	}
-	l3_uint32 get_vector3_data_sz()const {
+	l3_uint32 get_vector2_data_sz()const {
 		return sizeof(v_array_);
+	}
+	static l3_uint32 vector2_data_sz()
+	{
+		return sizeof(((vector2*)NULL)->v_array_);
 	}
 
 

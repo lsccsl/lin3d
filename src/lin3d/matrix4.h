@@ -56,8 +56,11 @@ public:
 
 	~matrix4(){}
 
-	l3_uint32 get_mtx_memsz() {
+	l3_uint32 get_matrix_data_sz() {
 		return sizeof(this->m_);
+	}
+	static l3_uint32 matrix_data_sz() {
+		return sizeof(((matrix4*)NULL)->m_);
 	}
 
 	/* @brief Éú³ÉËõ·Å¾ØÕó */

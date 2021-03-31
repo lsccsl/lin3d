@@ -80,7 +80,7 @@ private:
 	struct ourdoor_light_recv
 	{
 		ourdoor_light_recv() {
-			v_cam_seg_.resize(2);
+			v_cam_seg_.resize(CSM_SEG_COUNT);
 		}
 
 		std::vector<csm_cam_seg_info> v_cam_seg_;
@@ -105,11 +105,9 @@ private:
 	l3_int32 uni_aspect_loc_; //屏幕宽高比
 	l3_int32 uni_dep_range_loc_; //最大深度
 
-	//uniform sampler2D uni_tex_light_depth_tex; //光源空间深度
-	l3_int32 uni_tex_light_depth_tex1_loc_;
-	l3_int32 uni_tex_light_depth_tex2_loc_;
-	l3_int32 uni_tex_light_depth_shadow1_loc_; //同一个纹理,深度
-	l3_int32 uni_tex_light_depth_shadow2_loc_; //同一个纹理,深度
+	//光源空间深度
+	l3_int32 uni_tex_light_depth_tex_loc_;
+	l3_int32 uni_tex_light_depth_shadow_loc_;
 
 	l3_int32 uni_far_thredhold_loc_;
 
@@ -118,6 +116,7 @@ private:
 	l3_int32 uni_light_proj_mtx_loc_; //光源投影
 	l3_int32 uni_light_dep_pix_offset_loc_; //光源深度纹理分辨率
 	l3_int32 uni_loop_loc_; //uniform int
+	l3_int32 uni_seg_count_loc_;//
 
 	shader_screen_quad screen_quad_;
 };

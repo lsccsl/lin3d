@@ -109,8 +109,13 @@ public:
 private:
 
 	/* @brief 分辨率 */
+	l3_f32 csm_shadow_solution_;
 	l3_f32 offset_x_;
 	l3_f32 offset_y_;
+
+	/* @brief 每个分割视截体距离权重 */
+	std::vector<l3_f32> v_seg_weight_;
+	l3_int32 seg_weight_total_;
 
 	/* @brief out door main light(sun) */
 	struct outdoor_light_cam_seg
@@ -126,7 +131,7 @@ private:
 	struct outdoor_light
 	{
 		outdoor_light() {
-			v_cam_seg_.resize(2);
+			v_cam_seg_.resize(CSM_SEG_COUNT);
 		}
 
 		OBJ_ID sun_light_;

@@ -327,7 +327,7 @@ l3_int32 win_device::wnd_proc(unsigned int message, l3_uint64 wParam, l3_uint64 
 #if 1
 			glViewport(0, 0, (GLsizei)this->width_, (GLsizei)this->height_);
 #else
-			//glViewport(0, this->height_/2, (GLsizei)this->width_, (GLsizei)this->height_);
+			//glViewport(-100, -100, (GLsizei)this->width_, (GLsizei)this->height_);
 #endif
 
 			this->eng_->dev_window_size(this->width_, this->height_);

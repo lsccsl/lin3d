@@ -33,6 +33,10 @@ struct csm_cam_seg_info
 	OBJ_ID tex_csm_depth_clr_;
 };
 
+#define CSM_SEG_COUNT 4
+#define CSM_SEG_COUNT_MAX 4
+#define CSM_SHADOWTEX_SOLUTION 1024
+
 }
 
 #endif

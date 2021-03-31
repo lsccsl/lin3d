@@ -23,7 +23,7 @@
 namespace l3eng {
 
 
-shader_cascaded_shadowmap_cast::shader_cascaded_shadowmap_cast(l3_engine* eng) :shader(eng)
+shader_cascaded_shadowmap_cast::shader_cascaded_shadowmap_cast(l3_engine* eng) :shader(eng), csm_shadow_solution_(CSM_SHADOWTEX_SOLUTION)
 #ifdef HAS_TEST_MODE
 	, debug_geo_bbox_(eng->sence())
 	, debug_geo_lightspace_bbox_(eng->sence())
@@ -51,25 +51,31 @@ void shader_cascaded_shadowmap_cast::init()
 	texture_mgr* tex_mgr = this->eng_->tex_mgr();
 	assert(tex_mgr);
 
+	this->v_seg_weight_.push_back(1);
+	this->v_seg_weight_.push_back(2);
+	this->v_seg_weight_.push_back(4);
+	this->v_seg_weight_.push_back(10);
+	this->seg_weight_total_ = 10;
+
 	for (l3_int32 i = 0; i < this->outdoor_light_.v_cam_seg_.size(); i++)
 	{
 		outdoor_light_cam_seg& cam_seg = this->outdoor_light_.v_cam_seg_[i];
 		render_target_base::ptr rtt;
 		rtt_mgr->create_fbo_empty(rtt,
-			1024, 1024,
+			this->csm_shadow_solution_, this->csm_shadow_solution_,
 			color(0.0f, 0.0f, 0.0f, 0.0f), 1.0f);
 		if (rtt.is_null())
 			return;
 		cam_seg.rtt_csm_cast_ = rtt->obj_id();
 
 		texture_base::ptr tex_clr;
-		tex_mgr->create_tex_null(tex_clr, 1024, 1024,
+		tex_mgr->create_tex_null(tex_clr, this->csm_shadow_solution_, this->csm_shadow_solution_,
 			texture_base::e_tex_inter_type_rgba_f16);
 		rtt->add_tex_clr(tex_clr);
 		cam_seg.csm_cam_seg.tex_csm_depth_clr_ = tex_clr->obj_id();
 
 		texture_base::ptr tex_depth;
-		tex_mgr->create_dep_tex(tex_depth, 1024, 1024, L3_FALSE, texture_base::e_tex_compare_less);
+		tex_mgr->create_dep_tex(tex_depth, this->csm_shadow_solution_, this->csm_shadow_solution_, L3_FALSE, texture_base::e_tex_compare_less);
 		rtt->set_tex_dep(tex_depth);
 		cam_seg.csm_cam_seg.tex_csm_depth_ = tex_depth->obj_id();
 	}
@@ -82,8 +88,8 @@ void shader_cascaded_shadowmap_cast::init()
 		this->uni_world_mtx_loc_ = this->shdr_prg_->get_uniform_loc("uni_world_mtx");
 	}
 
-	this->offset_x_ = 1.0f / 1024.0f;
-	this->offset_y_ = 1.0f / 1024.0f;
+	this->offset_x_ = 1.0f / this->csm_shadow_solution_;
+	this->offset_y_ = 1.0f / this->csm_shadow_solution_;
 }
 
 void shader_cascaded_shadowmap_cast::cal_cam_seg()
@@ -111,7 +117,7 @@ void shader_cascaded_shadowmap_cast::cal_cam_seg()
 		far_bottom_left,
 		far_bottom_right);
 
-	l3_f32 fact = 1.0f / 10;// this->outdoor_light_.cascaded_count_;
+	l3_f32 fact = 1.0f / this->seg_weight_total_;// this->outdoor_light_.cascaded_count_;
 	vector3 diff_top_left = (far_top_left - near_top_left) * fact;
 	vector3 diff_top_right = (far_top_right - near_top_right) * fact;
 	vector3 diff_bottom_left = (far_bottom_left - near_bottom_left) * fact;
@@ -142,7 +148,7 @@ void shader_cascaded_shadowmap_cast::cal_cam_seg()
 
 	aabbox tmp_lightspace_bbox; //光源空间的包围盒
 	aabbox tmp_bbox; //光源空间的包围盒
-	for (l3_int32 i = 0; i < this->outdoor_light_.v_cam_seg_.size(); i++)
+	for (l3_int32 i = 0; i < this->outdoor_light_.v_cam_seg_.size() && i < this->v_seg_weight_.size(); i++)
 	{
 		//生成正交摄影机参数
 		tmp_lightspace_bbox.extent(aabbox::AABB_NULL);
@@ -164,10 +170,10 @@ void shader_cascaded_shadowmap_cast::cal_cam_seg()
 		}
 		else
 		{
-			tmp1_top_left = tmp_top_left + diff_top_left;
-			tmp1_top_right = tmp_top_right + diff_top_right;
-			tmp1_bottom_left = tmp_bottom_left + diff_bottom_left;
-			tmp1_bottom_right = tmp_bottom_right + diff_bottom_right;
+			tmp1_top_left  = tmp_top_left  + diff_top_left * (this->v_seg_weight_[i]);
+			tmp1_top_right = tmp_top_right + diff_top_right * (this->v_seg_weight_[i]);
+			tmp1_bottom_left  = tmp_bottom_left  + diff_bottom_left  * (this->v_seg_weight_[i]);
+			tmp1_bottom_right = tmp_bottom_right + diff_bottom_right * (this->v_seg_weight_[i]);
 		}
 
 		tmp_bbox.merge(tmp_top_left);
@@ -297,7 +303,6 @@ void shader_cascaded_shadowmap_cast::prepare(robj_base& robj)
 	this->shdr_prg_->uni_bind_mat4(this->uni_world_mtx_loc_,
 		robj.get_world_matrix());
 
-#if 1
 	this->shdr_prg_->uni_bind_mat4(this->uni_light_view_mtx_loc_,
 		cam_seg.csm_cam_seg.mtx_view_);
 	this->shdr_prg_->uni_bind_mat4(this->uni_light_proj_mtx_loc_,
@@ -306,16 +311,6 @@ void shader_cascaded_shadowmap_cast::prepare(robj_base& robj)
 		cam_seg.csm_cam_seg.z_near_,//0,//cam_seg.z_near_,
 		cam_seg.csm_cam_seg.z_far_ - cam_seg.csm_cam_seg.z_near_//100//cam_seg.z_far_ - cam_seg.z_near_
 	);
-#else
-	camera* cam = robj.sence()->cam_cur();
-	this->shdr_prg_->uni_bind_mat4(this->uni_light_view_mtx_loc_,
-		cam->view_mtx());
-	this->shdr_prg_->uni_bind_mat4(this->uni_light_proj_mtx_loc_,
-		cam->proj_mtx());
-	this->shdr_prg_->uni_bind_float_ve2(this->uni_light_dep_range_loc_,
-		cam->z_near(),
-		cam->z_far() - cam->z_near());
-#endif
 }
 
 void shader_cascaded_shadowmap_cast::set_light_info(OBJ_ID light_obj)

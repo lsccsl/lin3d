@@ -61,10 +61,10 @@ void shader_cascaded_shadowmap_recv::init()
 		this->uni_aspect_loc_ = this->shdr_prg_->get_uniform_loc("uni_aspect"); //屏幕宽高比
 		this->uni_dep_range_loc_ = this->shdr_prg_->get_uniform_loc("uni_dep_range"); //最大深度
 
-		this->uni_tex_light_depth_tex1_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_tex1");
-		this->uni_tex_light_depth_tex2_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_tex2");
-		this->uni_tex_light_depth_shadow1_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow1"); //同一个纹理,深度
-		this->uni_tex_light_depth_shadow2_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow2"); //同一个纹理,深度
+		this->uni_tex_light_depth_tex_loc_  = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_tex");
+		this->uni_tex_light_depth_shadow_loc_  = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow");
+		//this->uni_tex_light_depth_shadow1_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow1"); //同一个纹理,深度
+		//this->uni_tex_light_depth_shadow2_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow2"); //同一个纹理,深度
 		this->uni_far_thredhold_loc_ = this->shdr_prg_->get_uniform_loc("uni_far_thredhold");
 
 		this->uni_light_dep_range_loc_ = this->shdr_prg_->get_uniform_loc("uni_light_dep_range"); //光源的depth range
@@ -72,6 +72,7 @@ void shader_cascaded_shadowmap_recv::init()
 		this->uni_light_proj_mtx_loc_ = this->shdr_prg_->get_uniform_loc("uni_light_proj_mtx"); //光源投影
 		this->uni_light_dep_pix_offset_loc_ = this->shdr_prg_->get_uniform_loc("uni_light_dep_pix_offset"); //光源深度纹理分辨率
 		this->uni_loop_loc_ = this->shdr_prg_->get_uniform_loc("uni_loop");
+		this->uni_seg_count_loc_ = this->shdr_prg_->get_uniform_loc("uni_seg_count");
 	}
 
 	this->screen_quad_.init_screen_full(this->shdr_prg_, this->eng_);
@@ -105,8 +106,8 @@ void shader_cascaded_shadowmap_recv::get_csm_cast_info(const shader_cascaded_sha
 	this->offset_x_ = shdr_cast.offset_x();
 	this->offset_y_ = shdr_cast.offset_y();
 
-	for (l3_int32 i = 0; i < ourdoor_light_recv_.v_cam_seg_.size(); i++)
-		shdr_cast.get_csm_cam_seg(i, ourdoor_light_recv_.v_cam_seg_[i]);
+	for (l3_int32 i = 0; i < this->ourdoor_light_recv_.v_cam_seg_.size(); i++)
+		shdr_cast.get_csm_cam_seg(i, this->ourdoor_light_recv_.v_cam_seg_[i]);
 }
 
 void shader_cascaded_shadowmap_recv::render_screen_quad(sence_mgr* sence)
@@ -125,38 +126,72 @@ void shader_cascaded_shadowmap_recv::render_screen_quad(sence_mgr* sence)
 		cam->z_near(),
 		cam->z_far() - cam->z_near());
 
-	//绑定光源深度纹理
-	this->shdr_prg_->uni_bind_tex(this->uni_tex_light_depth_tex1_loc_, ourdoor_light_recv_.v_cam_seg_[0].tex_csm_depth_clr_);
-	this->shdr_prg_->uni_bind_tex(this->uni_tex_light_depth_tex2_loc_, ourdoor_light_recv_.v_cam_seg_[1].tex_csm_depth_clr_);
-	this->shdr_prg_->uni_bind_tex(this->uni_tex_light_depth_shadow1_loc_, ourdoor_light_recv_.v_cam_seg_[0].tex_csm_depth_);
-	this->shdr_prg_->uni_bind_tex(this->uni_tex_light_depth_shadow2_loc_, ourdoor_light_recv_.v_cam_seg_[1].tex_csm_depth_);
-
-	this->shdr_prg_->uni_bind_float_ve2(this->uni_light_dep_pix_offset_loc_,
-		this->offset_x_, this->offset_y_);
-
 	//绑定场景深度纹理
 	this->shdr_prg_->uni_bind_tex(this->uni_tex_view_depth_loc_, this->tex_sence_dep_);
 	this->shdr_prg_->uni_bind_tex(this->uni_tex_light_loc_, this->tex_sence_light_);
 
-	std::vector<vector2> v_vec2;
-	v_vec2.push_back(vector2(ourdoor_light_recv_.v_cam_seg_[0].z_near_,
-		ourdoor_light_recv_.v_cam_seg_[0].z_far_ - ourdoor_light_recv_.v_cam_seg_[0].z_near_));
-	v_vec2.push_back(vector2(ourdoor_light_recv_.v_cam_seg_[1].z_near_,
-		ourdoor_light_recv_.v_cam_seg_[1].z_far_ - ourdoor_light_recv_.v_cam_seg_[1].z_near_));
-	this->shdr_prg_->uni_bind_float_vec2_array(this->uni_light_dep_range_loc_, v_vec2);
+	//csm shadow solution
+	this->shdr_prg_->uni_bind_float_ve2(this->uni_light_dep_pix_offset_loc_,
+		this->offset_x_, this->offset_y_);
 
-	std::vector<matrix4> v_mtx_view;
-	v_mtx_view.push_back(ourdoor_light_recv_.v_cam_seg_[0].mtx_view_);
-	v_mtx_view.push_back(ourdoor_light_recv_.v_cam_seg_[1].mtx_view_);
-	this->shdr_prg_->uni_bind_mat4_array(this->uni_light_view_mtx_loc_, v_mtx_view);
+	//绑定光源深度纹理
+	{
+		std::vector<OBJ_ID> v_tex_obj;
+		for (l3_int32 i = 0; i < this->ourdoor_light_recv_.v_cam_seg_.size(); i++)
+			v_tex_obj.push_back(this->ourdoor_light_recv_.v_cam_seg_[i].tex_csm_depth_clr_);
+		//v_tex_obj.push_back(ourdoor_light_recv_.v_cam_seg_[0].tex_csm_depth_clr_);
+		//v_tex_obj.push_back(ourdoor_light_recv_.v_cam_seg_[1].tex_csm_depth_clr_);
+		this->shdr_prg_->uni_bind_tex_array(this->uni_tex_light_depth_tex_loc_,
+			v_tex_obj);
+	}
 
-	std::vector<matrix4> v_mtx_proj;
-	v_mtx_proj.push_back(ourdoor_light_recv_.v_cam_seg_[0].mtx_proj_);
-	v_mtx_proj.push_back(ourdoor_light_recv_.v_cam_seg_[1].mtx_proj_);
-	this->shdr_prg_->uni_bind_mat4_array(this->uni_light_proj_mtx_loc_, v_mtx_proj);
+#if 1
+	{
+		std::vector<OBJ_ID> v_shadowtex_obj;
+		for (l3_int32 i = 0; i < this->ourdoor_light_recv_.v_cam_seg_.size(); i++)
+			v_shadowtex_obj.push_back(this->ourdoor_light_recv_.v_cam_seg_[i].tex_csm_depth_);
+		//v_shadowtex_obj.push_back(ourdoor_light_recv_.v_cam_seg_[0].tex_csm_depth_);
+		//v_shadowtex_obj.push_back(ourdoor_light_recv_.v_cam_seg_[1].tex_csm_depth_);
+		this->shdr_prg_->uni_bind_tex_array(this->uni_tex_light_depth_shadow_loc_,
+			v_shadowtex_obj);		
+	}
+#endif
+
+	{
+		std::vector<vector2> v_vec2;
+		for(l3_int32 i = 0; i < this->ourdoor_light_recv_.v_cam_seg_.size(); i ++)
+			v_vec2.push_back(vector2(this->ourdoor_light_recv_.v_cam_seg_[i].z_near_,
+				this->ourdoor_light_recv_.v_cam_seg_[i].z_far_ - this->ourdoor_light_recv_.v_cam_seg_[i].z_near_));
+		//v_vec2.push_back(vector2(ourdoor_light_recv_.v_cam_seg_[0].z_near_,
+		//	ourdoor_light_recv_.v_cam_seg_[0].z_far_ - ourdoor_light_recv_.v_cam_seg_[0].z_near_));
+		//v_vec2.push_back(vector2(ourdoor_light_recv_.v_cam_seg_[1].z_near_,
+		//	ourdoor_light_recv_.v_cam_seg_[1].z_far_ - ourdoor_light_recv_.v_cam_seg_[1].z_near_));
+		this->shdr_prg_->uni_bind_float_vec2_array(this->uni_light_dep_range_loc_, v_vec2);
+	}
+
+	{
+		std::vector<matrix4> v_mtx_view;
+		for(l3_int32 i = 0; i < this->ourdoor_light_recv_.v_cam_seg_.size(); i ++)
+			v_mtx_view.push_back(this->ourdoor_light_recv_.v_cam_seg_[i].mtx_view_);
+		//v_mtx_view.push_back(ourdoor_light_recv_.v_cam_seg_[0].mtx_view_);
+		//v_mtx_view.push_back(ourdoor_light_recv_.v_cam_seg_[1].mtx_view_);
+		this->shdr_prg_->uni_bind_mat4_array(this->uni_light_view_mtx_loc_, v_mtx_view);
+	}
+
+	{
+		std::vector<matrix4> v_mtx_proj;
+		for(l3_int32 i = 0; i < this->ourdoor_light_recv_.v_cam_seg_.size(); i ++)
+			v_mtx_proj.push_back(this->ourdoor_light_recv_.v_cam_seg_[i].mtx_proj_);
+		//v_mtx_proj.push_back(ourdoor_light_recv_.v_cam_seg_[0].mtx_proj_);
+		//v_mtx_proj.push_back(ourdoor_light_recv_.v_cam_seg_[1].mtx_proj_);
+		this->shdr_prg_->uni_bind_mat4_array(this->uni_light_proj_mtx_loc_, v_mtx_proj);
+	}
 
 	this->shdr_prg_->uni_bind_int(this->uni_loop_loc_,
 		this->sample_loop_ ? this->sample_loop_ : 1);
+
+	this->shdr_prg_->uni_bind_int(this->uni_seg_count_loc_,
+		this->ourdoor_light_recv_.v_cam_seg_.size());
 	/*
 	l3_int32 uni_far_thredhold_loc_;
 	*/

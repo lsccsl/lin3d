@@ -29,7 +29,10 @@ l3_int32 render_target_fbo::_enable_mult(l3_bool need_clear)
 	if(GL_FRAMEBUFFER_COMPLETE_EXT != status)
 		return -1;
 
-	glViewport(0, 0, this->width_, this->height_);
+	if(this->viewport_sz_x_ > 0 && this->viewport_sz_y_ > 0)
+		glViewport(this->viewport_x_, this->viewport_y_, this->viewport_sz_x_, this->viewport_sz_y_);
+	else
+		glViewport(this->viewport_x_, this->viewport_y_, this->width_, this->height_);
 
 	glDrawBuffersARB((GLsizei)(this->v_attachment_.size()), &this->v_attachment_[0]);
 	//GLenum buffers[] = { GL_COLOR_ATTACHMENT0_EXT, GL_COLOR_ATTACHMENT1_EXT };
@@ -57,7 +60,10 @@ l3_int32 render_target_fbo::_enable_one(l3_bool need_clear)
 	if(GL_FRAMEBUFFER_COMPLETE_EXT != status)
 		return -1;
 
-	glViewport(0, 0, this->width_, this->height_);
+	if (this->viewport_sz_x_ > 0 && this->viewport_sz_y_ > 0)
+		glViewport(this->viewport_x_, this->viewport_y_, this->viewport_sz_x_, this->viewport_sz_y_);
+	else
+		glViewport(this->viewport_x_, this->viewport_y_, this->width_, this->height_);
 
 	//if(need_clear)
 	//{
@@ -209,6 +215,7 @@ l3_int32 render_target_fbo::clear_fbo()
 //	return 0;
 //}
 
+#if 0
 l3_int32 render_target_fbo::_init_clr(const l3_int32 width,
 	const l3_int32 height,
 	const l3_int32 clr_attach_count,
@@ -289,9 +296,10 @@ l3_int32 render_target_fbo::_init_clr(const l3_int32 width,
 
 	return 0;
 }
+#endif
 
-l3_int32 render_target_fbo::_init_dep(const l3_int32 width,
-	const l3_int32 height,
+l3_int32 render_target_fbo::_init_dep(/*const l3_int32 width,
+	const l3_int32 height,*/
 	const render_target_base::e_rtt_depth_format depth_format,
 	const texture_base::e_tex_compare dep_cmp,
 	const l3_f32 clear_dep)
@@ -300,7 +308,6 @@ l3_int32 render_target_fbo::_init_dep(const l3_int32 width,
 
 	if(this->fbo_ == (l3_uint32)-1)
 		return 0;
-	//this->_init_dev_fbo(width, height);
 
 	this->clear_dep_ = clear_dep;
 
@@ -308,12 +315,12 @@ l3_int32 render_target_fbo::_init_dep(const l3_int32 width,
 	switch(depth_format)
 	{
 	case e_rtt_depth_format_16:
-		this->eng_->tex_mgr()->create_dep_tex(this->depth_tex_, width, height, L3_FALSE, dep_cmp);
+		this->eng_->tex_mgr()->create_dep_tex(this->depth_tex_, this->width_, this->height_, L3_FALSE, dep_cmp);
 		break;
 
 	case e_rtt_depth_format_32:
 	default:
-		this->eng_->tex_mgr()->create_dep_tex(this->depth_tex_, width, height, L3_TRUE, dep_cmp);
+		this->eng_->tex_mgr()->create_dep_tex(this->depth_tex_, this->width_, this->height_, L3_TRUE, dep_cmp);
 		break;
 	}
 
@@ -561,9 +568,7 @@ l3_int32 render_target_fbo::set_tex_dep(
 	const texture_base::e_tex_compare dep_cmp,
 	const l3_f32 clear_dep)
 {
-	return this->_init_dep(this->width_,
-		this->height_,
-		depth_format,
+	return this->_init_dep(depth_format,
 		dep_cmp,
 		clear_dep);
 }

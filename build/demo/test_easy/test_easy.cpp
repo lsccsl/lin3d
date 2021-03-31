@@ -10,12 +10,26 @@ OBJ_ID __light_id;
 
 int __idx = 0;
 
+OBJ_ID __rtt_sence;
+OBJ_ID __cube_bg;
+
 class test_listerner : public default_listener
 {
 public:
 
 	test_listerner(l3_engine * eng):default_listener(eng)
 	{}
+
+	virtual void pre_render()override
+	{
+		this->eng_->set_normal_mode();
+		this->eng_->rtt_viewport(__rtt_sence, 100, 100, 10240, 10240);
+		this->eng_->robj_set_sys_shader(__cube_bg, "");
+		this->eng_->render_sence(L3_RENDER_GROUP_DEFAULT, __rtt_sence);
+		this->eng_->robj_set_sys_shader(__cube_bg, "_l3eng_inter_test_program");
+
+		this->eng_->rtt_show_tex(__rtt_sence, 1, 0.1f, 0.1f, 1.0f, 1.0f);
+	}
 
 	virtual l3_int32 keyboard_event(const keyboard_data_t& keyboard_evt)
 	{		
@@ -130,6 +144,7 @@ int main()
 	e.enable_debug(0);
 	e.enable_defer_render(0);
 
+	__rtt_sence = e.rtt_fbo_create("test_rtt", 1024, 1024);
 	//{
 	//	l3eng::OBJ_ID shader_id = e.shader_get("_l3eng_inter_defer_render_final");
 	//	e.shader_set_param_f32(shader_id, EN_SHADER_PARAM_FINAL_DIFF_SCALE, 0.01f);
@@ -161,6 +176,16 @@ int main()
 		e.shader_defer_render(cube, 1);
 	}
 
+	if (1)
+	{
+		__cube_bg = e.robj_geometry_create_cube(200, 200, 1, true, 255,255,255);
+		e.robj_move_to_xyz(__cube_bg, 0, 0, -100);
+		e.robj_set_sys_shader(__cube_bg, "_l3eng_inter_test_program");
+		OBJ_ID tex_id = e.tex_load("../resource/eq2_bmtl_05.jpg");
+		e.robj_set_tex(__cube_bg, tex_id);
+		e.shader_defer_render(__cube_bg, 1);
+	}
+
 	if(1)
 	{
 		OBJ_ID sphere = e.robj_sphere_create(10, 200);
@@ -171,8 +196,8 @@ int main()
 		e.shader_defer_render(sphere, 1);
 	}
 
-	e.camera_set_pers(50.0f, 0.1f, 2000.0f);
-	//e.camera_set_ortho(200, 150, 0.1f, 2000.f);
+	//e.camera_set_pers(50.0f, 0.1f, 2000.0f);
+	e.camera_set_ortho(200, 150, 0.1f, 2000.f);
 	e.camera_set(vector3(0,0,0), vector3(0,0,100));
 
 	e.run();

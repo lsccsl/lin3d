@@ -864,9 +864,9 @@ l3_int32 l3_engine::robj_set_sys_shader(OBJ_ID obj_id, const char * name)
 	shader::ptr shrd;
 	this->shdr_mgr_->get_shader_by_name(name, shrd);
 	if(shrd.is_null())
-		return -1;
-
-	robj->set_shader(shrd);
+		robj->set_shader(shader::ptr());
+	else
+		robj->set_shader(shrd);
 
 	return 0;
 }
@@ -1085,7 +1085,18 @@ void l3_engine::dev_window_size(l3_f32 width, l3_f32 height)
 {
 	camera& cam = *this->sence_->cam_main();
 
-	cam.set_pers_proj(cam.fovy(), width/height, cam.z_near(), cam.z_far());
+	switch (cam.cam_type())
+	{
+	case camera::CAMTYPE_pers:
+		cam.set_pers_proj(cam.fovy(), width / height, cam.z_near(), cam.z_far());
+		break;
+
+	//case camera::CAMTYPE_ortho:
+	//	cam.set_ortho_proj(width,
+	//		height,
+	//		cam.z_near(), cam.z_far());
+	//	break;
+	}
 }
 
 l3_f32 l3_engine::dev_window_width()
@@ -1218,6 +1229,17 @@ void l3_engine::rtt_show_tex(OBJ_ID rtt, const l3_uint32 tex_idx,
 		x_start, y_start,
 		x_len, y_len,
 		dep);
+}
+
+void l3_engine::rtt_viewport(OBJ_ID rtt,
+	const l3_int32 x, const l3_int32 y, const l3_int32 sz_x, const l3_int32 sz_y)
+{
+	render_target_base::ptr rtt_ptr;
+	this->rtt_mgr_->get_render_target(rtt, rtt_ptr);
+	if (rtt_ptr.is_null())
+		return;
+
+	rtt_ptr->set_viewport(x, y, sz_x, sz_y);
 }
 
 /* @brief ╪стьнфюМ */

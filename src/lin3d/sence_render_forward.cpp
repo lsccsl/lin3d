@@ -21,13 +21,22 @@
 #include "robj_vector.h"
 #include "robj_cone.h"
 #include "robj_sphere.h"
+#include "l3_engine.h"
+#include "render_target_mgr.h"
+#include "texture_mgr.h"
 
 namespace l3eng{
+
+#define FORWARD_RTT_SIZE 1024
 
 sence_render_forward::sence_render_forward(sence_mgr * sence):sence_(sence)
 	,frender_mode_(EN_FORWARD_RENDER_MODE_NORMAL)
 {
-	assert(sence_);
+	assert(this->sence_);
+}
+
+void sence_render_forward::init()
+{
 }
 
 void sence_render_forward::render_sence(const L3_RENDER_GROUP render_group)

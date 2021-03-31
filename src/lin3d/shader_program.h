@@ -105,6 +105,7 @@ public:
 		glsl_param_tex_t():tex_obj_(base_obj::INVALID_OBJ_ID){}		
 
 		OBJ_ID tex_obj_;
+		std::vector<OBJ_ID> v_tex_obj_;
 	};
 
 	typedef std::map<l3_int32/* glsl loc */, glsl_param_t> MAP_GLSL_PARAM;
@@ -148,15 +149,15 @@ public:
 public:
 
 	/* @brief 解绑uniform */
-	//l3_int32 uni_unbind(const l3_int32 loc);
 	l3_int32 uni_unbind_all();
-	//l3_int32 uni_unbind_tex(const l3_int32 loc);
 	l3_int32 uni_unbind_tex_all();
 
 
 	/* @brief 绑定纹理uniform */
 	l3_int32 uni_bind_tex(const l3_int32 loc,
 		const OBJ_ID tex_obj);
+	l3_int32 uni_bind_tex_array(const l3_int32 loc,
+		const std::vector<OBJ_ID>& v_tex_obj);
 
 	/* @brief 绑定二维向量 */
 	l3_int32 uni_bind_float_ve2(const l3_int32 loc,

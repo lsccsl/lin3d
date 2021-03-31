@@ -90,10 +90,7 @@ public:
 	virtual l3_int32 del_all_tex_clr()
 	{ return -1; }
 
-	virtual l3_int32 set_tex_dep(
-		//const l3_int32 width,
-		//const l3_int32 height,
-		const render_target_base::e_rtt_depth_format depth_format,
+	virtual l3_int32 set_tex_dep(const render_target_base::e_rtt_depth_format depth_format,
 		const texture_base::e_tex_compare dep_cmp,
 		const l3_f32 clear_dep)
 	{ return -1; }
@@ -103,6 +100,8 @@ public:
 	{ return -1; }
 	virtual l3_int32 unset_tex_dep()
 	{ return -1; }
+
+	virtual void set_viewport(const l3_int32 x, const l3_int32 y, const l3_int32 sz_x, const l3_int32 sz_y) {}
 
 public:
 

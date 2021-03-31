@@ -433,19 +433,19 @@ public:
 		const color& clear_clr = color(0, 0, 0, 0),
 		const e_rtt_clr_type clr_type = e_rtt_clr_rgba_f16,
 		const e_rtt_depth_type dep_type = e_rtt_depth_f16);
-
 	/* @brief 获取tex */
 	OBJ_ID rtt_get_tex_clr(OBJ_ID rtt,
 		l3_uint32 idx = 1);
-
 	/* @brief 获取dep */
 	OBJ_ID rtt_get_tex_dep(OBJ_ID rtt);
-
 	/* @brief show rrt tex */
 	void rtt_show_tex(OBJ_ID rtt, const l3_uint32 tex_idx = 1,
 		const l3_f32 x_start = 0.0, const l3_f32 y_start = 0.0,
 		const l3_f32 x_len = 0.1, const l3_f32 y_len = 0.1,
 		const l3_f32 dep = 0.0f);
+	/* @brief rtt设置view port */
+	void rtt_viewport(OBJ_ID rtt,
+		const l3_int32 x, const l3_int32 y, const l3_int32 sz_x, const l3_int32 sz_y);
 
 
 	/*

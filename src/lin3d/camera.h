@@ -37,7 +37,7 @@ class sence_mgr;
 */
 class camera : public base_obj
 {
-private:
+public:
 
 	enum{
 		FRUSTUM_PLANE_FAR = 0,
@@ -47,6 +47,12 @@ private:
 		FRUSTUM_PLANE_TOP,
 		FRUSTUM_PLANE_BOTTOM,
 		FRUSTUM_PLANE_COUNT,
+	};
+
+	enum CAMTYPE{
+		CAMTYPE_none  = 0,
+		CAMTYPE_pers  = 1,
+		CAMTYPE_ortho = 2,
 	};
 
 public:
@@ -62,7 +68,8 @@ public:
 		x_pos_(0),y_pos_(0),z_pos_(10),need_cal_view_mtx_(1),
 		active_(1),
 		fovy_(90.0f),aspect_(1.0f),z_near_(1.0f),z_far_(100.0f),
-		fm_(sence)
+		fm_(sence),
+		cam_type_(CAMTYPE_pers)
 	{
 		matrix4::gen_pers_proj_matrix(this->fovy_, this->aspect_, this->z_near_, this->z_far_, this->proj_mtx_);
 	}
@@ -144,8 +151,14 @@ public:
 	inline const l3_f32 z_near()const{ return this->z_near_; }
 	inline const l3_f32 z_far()const{ return this->z_far_; }
 
+	CAMTYPE cam_type() const{
+		return cam_type_;
+	}
+
 	inline void set_pers_proj(l3_f32 fovy, l3_f32 aspect, l3_f32 z_near, l3_f32 z_far)
 	{
+		this->cam_type_ = CAMTYPE_pers;
+
 		this->fovy_ = fovy;
 		this->aspect_ = aspect;
 		this->z_near_ = z_near;
@@ -160,6 +173,11 @@ public:
 		l3_f32 view_height,
 		l3_f32 z_near, l3_f32 z_far)
 	{
+		this->cam_type_ = CAMTYPE_ortho;
+
+		this->view_width_ = view_width;
+		this->view_height_ = view_height;
+
 		matrix4::gen_ortho_proj_matrix(view_width,
 			view_height,
 			z_near, z_far,
@@ -246,7 +264,7 @@ protected:
 	l3_f32 z_near_;
 	l3_f32 z_far_;
 
-	/* @brief 视口 */
+	/* @brief ortho使用 */
 	l3_f32 view_width_;
 	l3_f32 view_height_;
 
@@ -290,6 +308,9 @@ protected:
 
 	/* @brief 是否起用摄影机 */
 	l3_int32 active_;
+
+	/* @brief 摄影机类型 */
+	CAMTYPE cam_type_;
 };
 
 }

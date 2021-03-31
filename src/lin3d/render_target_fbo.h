@@ -36,7 +36,11 @@ public:
 
 	render_target_fbo(l3_engine * eng):render_target_base(eng),
 		fbo_(-1),
-		clear_dep_(1.0)
+		clear_dep_(1.0),
+		viewport_x_(0),
+		viewport_y_(0),
+		viewport_sz_x_(-1),
+		viewport_sz_y_(-1)
 	{}
 	virtual ~render_target_fbo(){}
 
@@ -83,6 +87,14 @@ public:
 	virtual l3_int32 set_tex_dep(OBJ_ID tex_id)override;
 	virtual l3_int32 unset_tex_dep()override;
 
+	virtual void set_viewport(const l3_int32 x, const l3_int32 y, const l3_int32 sz_x, const l3_int32 sz_y)override
+	{
+		viewport_x_ = x;
+		viewport_y_ = y;
+		viewport_sz_x_ = sz_x;
+		viewport_sz_y_ = sz_y;
+	}
+
 public:
 
 	//l3_int32 init_with_dep(const l3_int32 width,
@@ -102,14 +114,14 @@ public:
 
 private:
 
-	l3_int32 _init_clr(const l3_int32 width,
-		const l3_int32 height,
-		const l3_int32 clr_attach_count,
-		const render_target_base::e_rtt_color_format format,
-		const color& clear_clr);
-	l3_int32 _init_dep(const l3_int32 width,
-		const l3_int32 height,
-		const render_target_base::e_rtt_depth_format depth_format,
+#if 0
+	//l3_int32 _init_clr(const l3_int32 width,
+	//	const l3_int32 height,
+	//	const l3_int32 clr_attach_count,
+	//	const render_target_base::e_rtt_color_format format,
+	//	const color& clear_clr);
+#endif
+	l3_int32 _init_dep(const render_target_base::e_rtt_depth_format depth_format,
 		const texture_base::e_tex_compare dep_cmp,
 		const l3_f32 clear_dep);
 	l3_int32 _init_dev_fbo(const l3_int32 width,
@@ -130,6 +142,12 @@ private:
 
 	color clear_clr_;
 	l3_f32 clear_dep_;
+
+	/* @brief 视口偏移与视口大小 */
+	l3_int32 viewport_x_;
+	l3_int32 viewport_y_;
+	l3_int32 viewport_sz_x_;
+	l3_int32 viewport_sz_y_;
 };
 
 }
