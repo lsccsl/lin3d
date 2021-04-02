@@ -51,7 +51,7 @@ public:
 		attenuation_const_(1.0f),
 		attenuation_linear_(0.01f),
 		attenuation_quadratic_(0.01f),
-		exponent_(2.0f),
+		exponent_(1.0f),
 		cutoff_(45.0f),
 		cutoff_inner_(30.0f),
 		cutoff_outer_(45.0f),

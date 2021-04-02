@@ -109,16 +109,20 @@ int main()
 	e.init_eng(&tl, 1);
 	e.enable_atmospheric(0);
 	e.enable_hdr(0);
-	e.enable_debug(0);
+	e.enable_debug(1);
 	e.enable_defer_render(1);
 	e.enable_ssao(0);
 
+	if(1)//out door light
 	{
 		_g_light_id = e.light_create();
 		e.light_type(_g_light_id, 3);
-		e.light_enable(_g_light_id, 1);
+		e.light_enable(_g_light_id, 0);
 
-		e.light_clr_diffuse(_g_light_id, color(1.0f, 0.3f, 1.0f));
+		e.light_clr_diffuse(_g_light_id,
+			//color(0.5f, 0.5f, .5f)
+			color(0.5f, 0.0f, .0f)
+		);
 
 		e.light_max_len(_g_light_id, 500.0f);
 		e.light_set_rotate(_g_light_id, _g_light_rotate_x, _g_light_rotate_y, _g_light_rotate_z);
@@ -127,14 +131,35 @@ int main()
 
 		e.light_enable_vol(_g_light_id, 0);
 		e.light_enable_light_debug(_g_light_id, 1);
-		e.light_enable_shadow(_g_light_id, 0);
+		e.light_enable_shadow(_g_light_id, 1);
 
 		e.light_set_sun(_g_light_id);
 	}
 
+	if(1)//spot light
+	{
+		OBJ_ID light_id = e.light_create();
+		e.light_type(light_id, 1);
+		e.light_enable(light_id, 1);
+
+		e.light_clr_diffuse(light_id,
+			//color(0.5f, 0.5f, .5f)
+			color(0.0f, 0.0f, 1.0f)
+		);
+
+		e.light_max_len(light_id, 300.0f);
+		e.light_set_rotate(light_id, _g_light_rotate_x, _g_light_rotate_y, _g_light_rotate_z);
+
+		e.light_set_pos(light_id, vector3(120, 60, 0));
+
+		e.light_enable_vol(light_id, 0);
+		e.light_enable_light_debug(light_id, 1);
+		e.light_enable_shadow(light_id, 1);
+	}
+
 	{
 		l3eng::OBJ_ID shader_id = e.shader_get("_l3eng_inter_defer_render_final");
-		e.shader_set_param_f32(shader_id, EN_SHADER_PARAM_FINAL_DIFF_SCALE, 0.01f);
+		e.shader_set_param_f32(shader_id, EN_SHADER_PARAM_FINAL_DIFF_SCALE, 0.1f);
 	}
 
 	if (1)

@@ -52,5 +52,5 @@ void main()
 	{
 		vec4 atmospheric = texture2D(uni_tex_atmospheric, gl_TexCoord[0].st);
 		gl_FragColor += uni_atmospheric_scale * atmospheric;
-	}	
+	}
 }

@@ -55,6 +55,9 @@ public:
 public:
 
 	void set_light_info(OBJ_ID light_obj);
+	OBJ_ID get_light_info() {
+		return this->outdoor_light_.sun_light_;
+	}
 
 	bool next_cam_seg() {
 		cur_cam_seg_++;
@@ -130,7 +133,7 @@ private:
 	};
 	struct outdoor_light
 	{
-		outdoor_light() {
+		outdoor_light():sun_light_(base_obj::INVALID_OBJ_ID){
 			v_cam_seg_.resize(CSM_SEG_COUNT);
 		}
 

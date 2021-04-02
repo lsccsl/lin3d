@@ -87,7 +87,7 @@ private:
 	/* @brief 输出 光照阴影混合 */
 	OBJ_ID rtt_light_mix_[2];
 	OBJ_ID tex_light_mix_[2];
-	l3_uint32 idx_mix_;
+	l3_uint32 idx_mix_; // 当前的混合结果
 
 	shader_screen_quad screen_quad_;
 };

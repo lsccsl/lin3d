@@ -147,22 +147,30 @@ void main()
 		}
 	}
 	
+#if 0
+	float final_1 = s1;
+	float final_2 = mix(s2, s1, fmix);
+	float final_s = mix(final_1, final_2, cas_count-1);//其实是 final_1/final_2中二选1
+#else
 	float final_s = 0.0;
 	if(1 == cas_count)
 		final_s = s1;
 	else
-		final_s = s1 * fmix + s2 * (1.0 - fmix);
-#if 0
+		final_s = s1 * fmix + s2 * (1.0 - fmix); //mix(s2, s1, fmix);// 
+#endif
+
+#if 1
 	gl_FragColor = vec4(final_s, final_s, final_s, 1) * sence_light;
+	//gl_FragColor = sence_light;
 #else
 	if(0 == cas_seg_in)
-		gl_FragColor = vec4(final_s, final_s, final_s, 1) * sence_light;
+		gl_FragColor = vec4(final_s/2, 0,       final_s/2, 1) * sence_light;
 	else if(1 == cas_seg_in)
-		gl_FragColor = vec4(final_s, 0,       0,       1) * sence_light;
+		gl_FragColor = vec4(final_s/2, 0,       0,         1) * sence_light;
 	else if(2 == cas_seg_in)
-		gl_FragColor = vec4(0,       final_s, 0,       1) * sence_light;
+		gl_FragColor = vec4(0,       final_s/2, 0,         1) * sence_light;
 	else if(3 == cas_seg_in)
-		gl_FragColor = vec4(0,       0,       final_s, 1) * sence_light;
+		gl_FragColor = vec4(0,       0,       final_s/2,   1) * sence_light;
 #endif
 	return;
 

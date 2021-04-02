@@ -424,7 +424,7 @@ void sence_render_test::_render_sence()
 
 	//高亮与hdr合并
 	//将体积光融合进最终位图
-
+#if 0
 	this->shdr_vol_rb_->set_test_mode(0);
 	this->shdr_vol_rb_->vol_rb_tex_src(tex_input->obj_id());
 	dev->active_shdr(this->shdr_vol_rb_);
@@ -438,6 +438,7 @@ void sence_render_test::_render_sence()
 	//	2.0f, 2.0f, 0.9f);
 
 	tex_final = this->shdr_vol_rb_->tex_output_final();
+#endif
 
 	//hdr处理
 	if(this->enable_hdr_)
@@ -812,6 +813,8 @@ void sence_render_test::_render_light()
 
 		if(li->l_cam_.is_null())
 			continue;
+		if (!li->l_->enable())
+			continue;
 
 		//处理每一盏灯的光照与阴影
 		this->_render_light_one(li);
@@ -829,6 +832,7 @@ void sence_render_test::_render_light()
 			this->_tex_dev_sz_pool_release(this->ref_tex_light_vol_);
 	}
 
+	//混合体积光
 	{
 		if(!this->ref_tex_light_vol_mix_1_.is_null())
 		{
@@ -853,6 +857,7 @@ void sence_render_test::_render_light()
 		}
 	}
 
+	//混合光照阴影
 	{
 		if(!this->ref_tex_light_mix_1_.is_null())
 		{
@@ -1208,6 +1213,8 @@ void sence_render_test::_render_ssr(texture_base::ptr& tex_reflect_src)
 
 void sence_render_test::set_sun_light(OBJ_ID light_obj)
 {
+	if (!this->sence_)
+		return;
 	light_mgr::light_info::ptr li;
 	this->sence_->get_light_mgr()->get_light_info(light_obj, li);
 	if (li.is_null())
@@ -1219,6 +1226,9 @@ void sence_render_test::set_sun_light(OBJ_ID light_obj)
 
 void sence_render_test::_render_sunlight_cascaded_shadowmap_cast()
 {
+	if (this->shdr_csm_cast_->get_light_info() == base_obj::INVALID_OBJ_ID)
+		return;
+
 	win_device* dev = this->sence_->eng()->dev();
 	assert(dev);
 
@@ -1263,6 +1273,9 @@ void sence_render_test::_render_sunlight_cascaded_shadowmap_cast()
 
 void sence_render_test::_render_sunlight_cascaded_shadowmap_recv()
 {
+	if (this->shdr_csm_cast_->get_light_info() == base_obj::INVALID_OBJ_ID)
+		return;
+
 	//传入4个深度纹理,以及对应的摄影机变换矩阵 
 	//每个像素点根据深度,用对应的变换矩阵与深度纹理,查询出阴影
 
@@ -1271,21 +1284,78 @@ void sence_render_test::_render_sunlight_cascaded_shadowmap_recv()
 	win_device* dev = this->sence_->eng()->dev();
 	assert(dev);
 
-	this->shdr_csm_recv_->set_sence_dep_tex(this->tex_gbuffer_dep_line_->obj_id());
-	if (!this->ref_tex_light_mix_.is_null())
-		this->shdr_csm_recv_->set_sence_light(this->ref_tex_light_mix_->obj_id());
-	this->shdr_csm_recv_->get_csm_cast_info(*shdr_csm_cast_);
+	{
+		light_mgr::light_info::ptr l;
+		this->sence_->get_light_mgr()->get_light_info(this->shdr_csm_cast_->get_light_info(), l);
+		if (l.is_null())
+			return;
+		this->_render_light_one_lighting(l);
+	}
 
-	dev->active_shdr(this->shdr_csm_recv_);
+	{
+		this->shdr_csm_recv_->set_sence_dep_tex(this->tex_gbuffer_dep_line_->obj_id());
+		if (!this->ref_tex_light_mix_.is_null())
+			this->shdr_csm_recv_->set_sence_light(this->ref_tex_light_->obj_id());
+		this->shdr_csm_recv_->get_csm_cast_info(*shdr_csm_cast_);
 
-	this->shdr_csm_recv_->pre_frame(this->sence_);
-	this->shdr_csm_recv_->render_screen_quad(this->sence_);
-	this->shdr_csm_recv_->post_frame(this->sence_);
+		dev->active_shdr(this->shdr_csm_recv_);
 
-	dev->set_active_shdr_null();
+		this->shdr_csm_recv_->pre_frame(this->sence_);
+		this->shdr_csm_recv_->render_screen_quad(this->sence_);
+		this->shdr_csm_recv_->post_frame(this->sence_);
+
+		dev->set_active_shdr_null();
+	}
+
+	if (!this->ref_tex_light_.is_null())
+		this->_tex_dev_sz_pool_release(this->ref_tex_light_);
+
+#if 1
 	this->sence_->render_show_tex(this->shdr_csm_recv_->tex_light_shadow()
-		//,1.f, 0.f, .5f, .5f
+		,1.f, 0.f, 1.f, 1.f
 	);
+#endif
+
+	if(!this->ref_tex_light_mix_.is_null())
+	{
+		texture_base::ptr ref_tex_light_mix_dst;
+		this->_tex_dev_sz_pool_get(ref_tex_light_mix_dst);
+
+		if (this->shdr_dr_light_mix_->idx_mix() == 1)
+		{
+			this->shdr_dr_light_mix_->tex_light_mix1(ref_tex_light_mix_dst->obj_id());
+			this->shdr_dr_light_mix_->tex_light_mix2(this->ref_tex_light_mix_->obj_id());
+		}
+		else
+		{
+			this->shdr_dr_light_mix_->tex_light_mix1(this->ref_tex_light_mix_->obj_id());
+			this->shdr_dr_light_mix_->tex_light_mix2(ref_tex_light_mix_dst->obj_id());
+		}
+
+		this->rtt_dev_size_->add_tex_clr(ref_tex_light_mix_dst);
+
+		dev->enable_rtt(this->rtt_dev_size_->obj_id());
+		dev->clear_fbo(this->rtt_dev_size_->obj_id());
+		dev->disable_rtt(this->rtt_dev_size_->obj_id());
+
+		//与outdoor light阴影混合
+		{
+			this->rtt_dev_size_->del_all_tex_clr();
+			this->rtt_dev_size_->unset_tex_dep();
+			this->rtt_dev_size_->add_tex_clr(ref_tex_light_mix_dst);
+
+			//混合光照阴影与out door阴影
+			dev->active_shdr(this->shdr_dr_light_mix_);
+			this->shdr_dr_light_mix_->pre_frame(this->sence_);
+			this->shdr_dr_light_mix_->tex_light_shadow(this->shdr_csm_recv_->tex_light_shadow());
+			this->shdr_dr_light_mix_->render_screen_quad();
+			this->shdr_dr_light_mix_->post_frame(this->sence_);
+			dev->set_active_shdr_null();
+		}
+
+		this->_tex_dev_sz_pool_release(this->ref_tex_light_mix_);
+		this->ref_tex_light_mix_ = ref_tex_light_mix_dst;
+	}
 }
 
 void sence_render_test::_debug()
@@ -1315,7 +1385,8 @@ void sence_render_test::_debug()
 	{
 		this->sence_->render_show_tex(this->ref_tex_light_mix_->obj_id(),
 			0.0f, y,
-			0.2f, 0.1f);
+			0.2f, 0.1f//1.0f, 1.0f//
+		);
 		y += 0.1f;
 	}
 

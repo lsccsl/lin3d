@@ -33,25 +33,25 @@ void shader_defer_render_light_mix::init()
 
 
 #if 0
-	for(l3_int32 i = 0; i < sizeof(this->rtt_light_mix_) / sizeof(this->rtt_light_mix_[0]); i ++)
-	{
+	//for (l3_int32 i = 0; i < sizeof(this->rtt_light_mix_) / sizeof(this->rtt_light_mix_[0]); i++)
+	//{
 
- 		render_target_base::ptr rtt_ptr;
-		this->rtt_light_mix_[i] = rtt_mgr->create_fbo_empty(rtt_ptr,
-			(l3_int32)dev->width(), (l3_int32)dev->height(),
-			color(0.0f, 0.0f, 0.0f, 0.0f), 1.0f
-			);
+	//	render_target_base::ptr rtt_ptr;
+	//	this->rtt_light_mix_[i] = rtt_mgr->create_fbo_empty(rtt_ptr,
+	//		(l3_int32)dev->width(), (l3_int32)dev->height(),
+	//		color(0.0f, 0.0f, 0.0f, 0.0f), 1.0f
+	//	);
 
-		rtt_ptr->add_tex_clr(
-			render_target_base::e_rtt_color_format_rgba_f16);
+	//	rtt_ptr->add_tex_clr(
+	//		render_target_base::e_rtt_color_format_rgba_f16);
 
-		render_target_base::ptr rtt;
-		rtt_mgr->get_render_target(this->rtt_light_mix_[i], rtt);
-		if(rtt.is_null())
-			continue;
+	//	render_target_base::ptr rtt;
+	//	rtt_mgr->get_render_target(this->rtt_light_mix_[i], rtt);
+	//	if (rtt.is_null())
+	//		continue;
 
-		this->tex_light_mix_[i] = rtt->clr_tex_1()->obj_id();
-	}
+	//	this->tex_light_mix_[i] = rtt->clr_tex_1()->obj_id();
+	//}
 #endif
 }
 

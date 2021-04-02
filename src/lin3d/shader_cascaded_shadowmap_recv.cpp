@@ -63,8 +63,6 @@ void shader_cascaded_shadowmap_recv::init()
 
 		this->uni_tex_light_depth_tex_loc_  = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_tex");
 		this->uni_tex_light_depth_shadow_loc_  = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow");
-		//this->uni_tex_light_depth_shadow1_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow1"); //同一个纹理,深度
-		//this->uni_tex_light_depth_shadow2_loc_ = this->shdr_prg_->get_uniform_tex_loc("uni_tex_light_depth_shadow2"); //同一个纹理,深度
 		this->uni_far_thredhold_loc_ = this->shdr_prg_->get_uniform_loc("uni_far_thredhold");
 
 		this->uni_light_dep_range_loc_ = this->shdr_prg_->get_uniform_loc("uni_light_dep_range"); //光源的depth range
