@@ -161,16 +161,15 @@ void main()
 
 #if 1
 	gl_FragColor = vec4(final_s, final_s, final_s, 1) * sence_light;
-	//gl_FragColor = sence_light;
 #else
 	if(0 == cas_seg_in)
 		gl_FragColor = vec4(final_s/2, 0,       final_s/2, 1) * sence_light;
 	else if(1 == cas_seg_in)
-		gl_FragColor = vec4(final_s/2, 0,       0,         1) * sence_light;
+		gl_FragColor = vec4(0, final_s/2,       final_s/2, 1) * sence_light;
 	else if(2 == cas_seg_in)
-		gl_FragColor = vec4(0,       final_s/2, 0,         1) * sence_light;
+		gl_FragColor = vec4(final_s/2, 0,       final_s/2, 1) * sence_light;
 	else if(3 == cas_seg_in)
-		gl_FragColor = vec4(0,       0,       final_s/2,   1) * sence_light;
+		gl_FragColor = vec4(0, final_s/2,       final_s/2, 1) * sence_light;
 #endif
 	return;
 

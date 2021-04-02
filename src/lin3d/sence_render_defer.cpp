@@ -331,6 +331,25 @@ void sence_render_defer::_init_shader()
 		this->shdr_vol_rb_ = ptr_shdr;
 		assert(this->shdr_vol_rb_->is_my_type(ptr_shdr->obj_type()));
 	}
+
+	// csm caster shader
+	{
+		shader::ptr ptr_shdr;
+		shdr_mgr->get_shader_by_name(shader_program_inter::_l3eng_inter_cascaded_shadowmap_cast, ptr_shdr);
+		assert(!ptr_shdr.is_null());
+
+		this->shdr_csm_cast_ = ptr_shdr;
+		assert(this->shdr_csm_cast_->is_my_type(ptr_shdr->obj_type()));
+	}
+	// csm recver shader
+	{
+		shader::ptr ptr_shdr;
+		shdr_mgr->get_shader_by_name(shader_program_inter::_l3eng_inter_cascaded_shadowmap_recv, ptr_shdr);
+		assert(!ptr_shdr.is_null());
+
+		this->shdr_csm_recv_ = ptr_shdr;
+		assert(this->shdr_csm_recv_->is_my_type(ptr_shdr->obj_type()));
+	}
 }
 
 void sence_render_defer::render_sence(const L3_RENDER_GROUP render_group)
@@ -366,6 +385,9 @@ void sence_render_defer::_render_sence()
 
 	//光照/阴影/体积光
 	this->_render_light();
+
+	this->_render_sunlight_cascaded_shadowmap_cast();
+	this->_render_sunlight_cascaded_shadowmap_recv();
 
 	//大气散射
 	if(this->enable_atmospheric_)
@@ -815,6 +837,8 @@ void sence_render_defer::_render_light()
 
 		if(li->l_cam_.is_null())
 			continue;
+		if (!li->l_->enable())
+			continue;
 
 		//处理每一盏灯的光照与阴影
 		this->_render_light_one(li);
@@ -1207,6 +1231,152 @@ void sence_render_defer::_render_ssr(texture_base::ptr& tex_reflect_src)
 
 	this->shdr_ssr_->post_frame(this->sence_);
 	dev->set_active_shdr_null();
+}
+
+void sence_render_defer::set_sun_light(OBJ_ID light_obj)
+{
+	if (!this->sence_)
+		return;
+	light_mgr::light_info::ptr li;
+	this->sence_->get_light_mgr()->get_light_info(light_obj, li);
+	if (li.is_null())
+		return;
+	if (li->l_->light_type() != light::E_LIGHT_DIR_OUTDOOR)
+		return;
+	shdr_csm_cast_->set_light_info(light_obj);
+}
+
+void sence_render_defer::_render_sunlight_cascaded_shadowmap_cast()
+{
+	if (this->shdr_csm_cast_->get_light_info() == base_obj::INVALID_OBJ_ID)
+		return;
+
+	win_device* dev = this->sence_->eng()->dev();
+	assert(dev);
+
+	this->shdr_csm_cast_->cal_cam_seg();
+
+	//得到shadow map
+	dev->push_cull_info();
+	dev->enable_cull_front();
+	//win_device::print_error(__FILE__, __LINE__);
+	dev->active_shdr(this->shdr_csm_cast_);
+
+	do {
+		this->shdr_csm_cast_->pre_frame(this->sence_);
+		const sence_mgr::MAP_ROBJ& render_obj = this->sence_->render_group_obj(L3_RENDER_GROUP_DEFAULT);
+		for (sence_mgr::MAP_ROBJ::const_iterator it = render_obj.begin(); it != render_obj.end(); it++)
+		{
+			robj_base* robj = it->second.get();
+
+			this->shdr_csm_cast_->prepare(*robj);
+			robj->render();
+		}
+		this->shdr_csm_cast_->post_frame(this->sence_);
+	} while (this->shdr_csm_cast_->next_cam_seg());
+
+	dev->set_active_shdr_null();
+	win_device::print_error(__FILE__, __LINE__);
+	dev->pop_cull_info();
+
+#ifdef HAS_TEST_MODE
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(0),
+	//	0.0f, 1.f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(1),
+	//	0.5f, 1.f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(2),
+	//	0.0f, 1.5f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(3),
+	//	0.5f, 1.5f, 0.5f, 0.5f);
+	//this->sence_->render_show_tex(this->shdr_csm_cast_->get_cam_seg_depthtex(0),
+	//	1.5f, 1.5f, 0.5f, 0.5f);
+#endif
+}
+
+void sence_render_defer::_render_sunlight_cascaded_shadowmap_recv()
+{
+	if (this->shdr_csm_cast_->get_light_info() == base_obj::INVALID_OBJ_ID)
+		return;
+
+	//传入4个深度纹理,以及对应的摄影机变换矩阵 
+	//每个像素点根据深度,用对应的变换矩阵与深度纹理,查询出阴影
+
+	win_device::print_error(__FILE__, __LINE__);
+
+	win_device* dev = this->sence_->eng()->dev();
+	assert(dev);
+
+	{
+		light_mgr::light_info::ptr l;
+		this->sence_->get_light_mgr()->get_light_info(this->shdr_csm_cast_->get_light_info(), l);
+		if (l.is_null())
+			return;
+		this->_render_light_one_lighting(l);
+	}
+
+	{
+		this->shdr_csm_recv_->set_sence_dep_tex(this->tex_gbuffer_dep_line_->obj_id());
+		if (!this->ref_tex_light_mix_.is_null())
+			this->shdr_csm_recv_->set_sence_light(this->ref_tex_light_->obj_id());
+		this->shdr_csm_recv_->get_csm_cast_info(*shdr_csm_cast_);
+
+		dev->active_shdr(this->shdr_csm_recv_);
+
+		this->shdr_csm_recv_->pre_frame(this->sence_);
+		this->shdr_csm_recv_->render_screen_quad(this->sence_);
+		this->shdr_csm_recv_->post_frame(this->sence_);
+
+		dev->set_active_shdr_null();
+	}
+
+	if (!this->ref_tex_light_.is_null())
+		this->_tex_dev_sz_pool_release(this->ref_tex_light_);
+
+#ifdef HAS_TEST_MODE
+	if (this->sence_->eng()->enable_debug())
+		this->sence_->render_show_tex(this->shdr_csm_recv_->tex_light_shadow(), 1.f, 0.f, 1.f, 1.f);
+#endif
+
+	if (!this->ref_tex_light_mix_.is_null())
+	{
+		texture_base::ptr ref_tex_light_mix_dst;
+		this->_tex_dev_sz_pool_get(ref_tex_light_mix_dst);
+
+		if (this->shdr_dr_light_mix_->idx_mix() == 1)
+		{
+			this->shdr_dr_light_mix_->tex_light_mix1(ref_tex_light_mix_dst->obj_id());
+			this->shdr_dr_light_mix_->tex_light_mix2(this->ref_tex_light_mix_->obj_id());
+		}
+		else
+		{
+			this->shdr_dr_light_mix_->tex_light_mix1(this->ref_tex_light_mix_->obj_id());
+			this->shdr_dr_light_mix_->tex_light_mix2(ref_tex_light_mix_dst->obj_id());
+		}
+
+		this->rtt_dev_size_->add_tex_clr(ref_tex_light_mix_dst);
+
+		dev->enable_rtt(this->rtt_dev_size_->obj_id());
+		dev->clear_fbo(this->rtt_dev_size_->obj_id());
+		dev->disable_rtt(this->rtt_dev_size_->obj_id());
+
+		//与outdoor light阴影混合
+		{
+			this->rtt_dev_size_->del_all_tex_clr();
+			this->rtt_dev_size_->unset_tex_dep();
+			this->rtt_dev_size_->add_tex_clr(ref_tex_light_mix_dst);
+
+			//混合光照阴影与out door阴影
+			dev->active_shdr(this->shdr_dr_light_mix_);
+			this->shdr_dr_light_mix_->pre_frame(this->sence_);
+			this->shdr_dr_light_mix_->tex_light_shadow(this->shdr_csm_recv_->tex_light_shadow());
+			this->shdr_dr_light_mix_->render_screen_quad();
+			this->shdr_dr_light_mix_->post_frame(this->sence_);
+			dev->set_active_shdr_null();
+		}
+
+		this->_tex_dev_sz_pool_release(this->ref_tex_light_mix_);
+		this->ref_tex_light_mix_ = ref_tex_light_mix_dst;
+	}
 }
 
 void sence_render_defer::_debug()

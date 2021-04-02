@@ -669,10 +669,7 @@ l3_int32 l3_engine::light_dir_virtual_width(OBJ_ID obj, l3_f32 f)
 
 l3_int32 l3_engine::light_set_sun(OBJ_ID obj)
 {
-#ifdef HAS_TEST_MODE
-	if(this->sence_->sence_test_render())
-		this->sence_->sence_test_render()->set_sun_light(obj);
-#endif
+	this->sence_->set_sun_light(obj);
 	return 0;
 }
 

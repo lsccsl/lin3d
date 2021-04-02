@@ -35,6 +35,8 @@
 #include "camera.h"
 #include "shader_reflect_forward.h"
 #include "shader_vol_radial_blur.h"
+#include "shader_cascaded_shadowmap_cast.h";
+#include "shader_cascaded_shadowmap_recv.h";
 
 /*
 gbuffer 法线/漫反射/深度  深度(透视) width x height --- done
@@ -94,6 +96,8 @@ public:
 		this->enable_post_vol_rb_ = e;
 	}
 
+	void set_sun_light(OBJ_ID light_obj);
+
 private:
 
 	void _init_shader();
@@ -120,6 +124,9 @@ private:
 	void _render_light_one_vol        (const light_mgr::light_info::ptr& li);
 	void _render_light_one_mix        (const light_mgr::light_info::ptr& li);
 	void _render_light_one_vol_mix    (const light_mgr::light_info::ptr& li);
+
+	void _render_sunlight_cascaded_shadowmap_cast();
+	void _render_sunlight_cascaded_shadowmap_recv();
 
 	void _render_reflect_tex();
 	void _render_refract_tex();
@@ -177,6 +184,10 @@ private:
 
 	/* @brief volume light radial blur */
 	shader_vol_radial_blur::ptr shdr_vol_rb_;
+
+	/* @brief csm shader */
+	shader_cascaded_shadowmap_cast::ptr shdr_csm_cast_;
+	shader_cascaded_shadowmap_recv::ptr shdr_csm_recv_;
 
 
 	/* @brief 窗口大小的render target */

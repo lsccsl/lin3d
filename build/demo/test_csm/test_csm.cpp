@@ -106,10 +106,10 @@ int main()
 {
 	l3_engine e;
 	test_listerner tl(&e);
-	e.init_eng(&tl, 1);
+	e.init_eng(&tl, 0);
 	e.enable_atmospheric(0);
 	e.enable_hdr(0);
-	e.enable_debug(1);
+	e.enable_debug(0);
 	e.enable_defer_render(1);
 	e.enable_ssao(0);
 
@@ -121,7 +121,7 @@ int main()
 
 		e.light_clr_diffuse(_g_light_id,
 			//color(0.5f, 0.5f, .5f)
-			color(0.5f, 0.0f, .0f)
+			color(0.5f, .1f, .1f)
 		);
 
 		e.light_max_len(_g_light_id, 500.0f);

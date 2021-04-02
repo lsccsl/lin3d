@@ -245,8 +245,29 @@ l3_bool sence_mgr::ray_pickup(const ray& r, robj_base::ptr& obj, triangle& tr_hi
 		m.trans_vect3(tr_hit[2], vtmp);
 		tr_hit[2] = vtmp;
 	}
-
 	return L3_TRUE;
+}
+
+void sence_mgr::set_sun_light(OBJ_ID light_obj)
+{
+	light_mgr::light_info::ptr li;
+	this->light_mgr_->get_light_info(light_obj, li);
+	if (li.is_null())
+		return;
+	li->l_->enable(L3_FALSE);
+
+	if (this->test_render_mode_)
+	{
+#ifdef HAS_TEST_MODE
+		if (!this->sence_test_render_.is_null())
+			this->sence_test_render_->set_sun_light(light_obj);
+#endif
+	}
+	else
+	{
+		if (!this->sence_render_.is_null())
+			this->sence_render_->set_sun_light(light_obj);
+	}
 }
 
 }

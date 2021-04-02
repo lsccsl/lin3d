@@ -214,6 +214,8 @@ public:
 		return this->rtt_sence_;
 	}
 
+	void set_sun_light(OBJ_ID light_obj);
+
 protected:
 
 	const MAP_ROBJ& map_obj(){ return this->map_obj_; }
